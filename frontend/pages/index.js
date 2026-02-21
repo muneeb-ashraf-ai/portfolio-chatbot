@@ -214,9 +214,26 @@ export default function Home() {
         <div className="animBlob animBlobFour" />
       </div>
 
-      <div className="appShell" data-theme="dark">
-        <canvas ref={canvasRef} className="particleCanvas" />
-        <aside className="profilePanel">
+      <div className="pageWrap" data-theme="dark">
+        {/* ── Global Header ── */}
+        <header className="siteHeader">
+          <div className="siteHeaderInner">
+            <div className="siteLogo">
+              <span className="siteLogoMark">MA</span>
+              <span className="siteLogoText">Muneeb Ashraf</span>
+            </div>
+            <nav className="siteNav">
+              <a href="#" className="siteNavLink">Portfolio</a>
+              <a href="#" className="siteNavLink">GitHub</a>
+              <a href="#" className="siteNavLink">LinkedIn</a>
+            </nav>
+          </div>
+        </header>
+
+        {/* ── Main split layout ── */}
+        <div className="appShell">
+          <canvas ref={canvasRef} className="particleCanvas" />
+          <aside className="profilePanel">
 
           <div className="profileCard">
             <div className="profileHalo">
@@ -237,12 +254,6 @@ export default function Home() {
             <p className="profileBio">
               This assistant answers questions about Muneeb’s background, skills, projects, and career journey.
             </p>
-
-            <div className="socials">
-              <a href="#" className="socialLink" aria-label="LinkedIn">LinkedIn</a>
-              <a href="#" className="socialLink" aria-label="GitHub">GitHub</a>
-              <a href="#" className="socialLink" aria-label="Portfolio">Portfolio</a>
-            </div>
           </div>
         </aside>
 
@@ -354,6 +365,16 @@ export default function Home() {
         </section>
       </div>
 
+        {/* ── Global Footer ── */}
+        <footer className="siteFooter">
+          <div className="siteFooterInner">
+            <span className="footerLeft">© 2025 Muneeb Ashraf · All rights reserved</span>
+            <span className="footerRight">Powered by RAG · Built with Next.js</span>
+          </div>
+        </footer>
+
+      </div>
+
       <style jsx>{`
         :global(:root) {
           --color-primary:       #6B3B8E;
@@ -389,17 +410,123 @@ export default function Home() {
           overflow: hidden;
         }
 
-        .appShell {
+        /* Outer shell: header + split + footer locked to full viewport */
+        .pageWrap {
           height: 100dvh;
           width: 100%;
-          background: transparent;
+          display: grid;
+          grid-template-rows: auto 1fr auto;
+          overflow: hidden;
           color: var(--color-text-primary);
           font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+          position: relative;
+          z-index: 1;
+        }
+
+        /* ── Site Header ── */
+        .siteHeader {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+          background: rgba(11, 8, 14, 0.75);
+          backdrop-filter: blur(18px);
+          flex-shrink: 0;
+          z-index: 10;
+        }
+
+        .siteHeaderInner {
+          max-width: 100%;
+          padding: 0 2rem;
+          height: 56px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+        }
+
+        .siteLogo {
+          display: flex;
+          align-items: center;
+          gap: 0.65rem;
+          text-decoration: none;
+        }
+
+        .siteLogoMark {
+          width: 34px;
+          height: 34px;
+          border-radius: 10px;
+          background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+          display: grid;
+          place-items: center;
+          font-size: 0.78rem;
+          font-weight: 700;
+          color: #fff;
+          flex-shrink: 0;
+        }
+
+        .siteLogoText {
+          font-size: 0.95rem;
+          font-weight: 600;
+          color: var(--color-text-primary);
+          white-space: nowrap;
+        }
+
+        .siteNav {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+        }
+
+        .siteNavLink {
+          color: var(--color-text-secondary);
+          text-decoration: none;
+          font-size: 0.88rem;
+          font-weight: 500;
+          padding: 0.35rem 0.75rem;
+          border-radius: 8px;
+          border: 1px solid transparent;
+          transition: color var(--transition-base), border-color var(--transition-base), background var(--transition-base);
+        }
+
+        .siteNavLink:hover {
+          color: var(--color-text-primary);
+          border-color: rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ── Split layout ── */
+        .appShell {
+          min-height: 0;
+          height: 100%;
+          width: 100%;
+          background: transparent;
           display: grid;
           grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr);
           overflow: hidden;
           position: relative;
-          z-index: 1;
+        }
+
+        /* ── Site Footer ── */
+        .siteFooter {
+          border-top: 1px solid rgba(255, 255, 255, 0.07);
+          background: rgba(11, 8, 14, 0.75);
+          backdrop-filter: blur(18px);
+          flex-shrink: 0;
+          z-index: 10;
+        }
+
+        .siteFooterInner {
+          padding: 0 2rem;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+        }
+
+        .footerLeft,
+        .footerRight {
+          font-size: 0.78rem;
+          color: var(--color-text-secondary);
+          white-space: nowrap;
         }
 
         .particleCanvas {
@@ -507,7 +634,7 @@ export default function Home() {
         .chatPanel {
           background: transparent;
           position: relative;
-          height: 100dvh;
+          height: 100%;
           overflow: hidden;
         }
 
@@ -534,7 +661,7 @@ export default function Home() {
         .profileHalo {
           width: 260px;
           height: 260px;
-          border-radius: 999px;
+          border-radius: 32px;
           margin: 0 auto 1.25rem;
           padding: 6px;
           background: linear-gradient(135deg, var(--color-primary), var(--color-accent), var(--color-secondary));
@@ -545,7 +672,7 @@ export default function Home() {
         .profileFallback {
           width: 100%;
           height: 100%;
-          border-radius: 999px;
+          border-radius: 28px;
           object-fit: cover;
           background: var(--color-surface-alt);
           border: 1px solid var(--color-border);
@@ -573,7 +700,7 @@ export default function Home() {
         }
 
         .profileBio {
-          margin: 0.5rem auto 1.5rem;
+          margin: 0.5rem auto 0;
           max-width: 36ch;
           color: var(--color-text-secondary);
           font-weight: 400;
@@ -839,8 +966,6 @@ export default function Home() {
         }
 
         .composer {
-          position: sticky;
-          bottom: 0;
           padding: 1rem;
           border-top: 1px solid rgba(255, 255, 255, 0.1);
           background: rgba(10, 5, 20, 0.85);
@@ -972,8 +1097,7 @@ export default function Home() {
 
         @media (max-width: 1024px) {
           .appShell {
-            height: auto;
-            min-height: 100dvh;
+            min-height: 0;
             grid-template-columns: 1fr;
             grid-template-rows: auto 14px 1fr;
           }
@@ -984,7 +1108,7 @@ export default function Home() {
           }
 
           .chatPanel {
-            height: 100dvh;
+            height: 100%;
           }
 
           .divider {
@@ -1018,6 +1142,18 @@ export default function Home() {
         }
 
         @media (max-width: 640px) {
+          .siteHeaderInner,
+          .siteFooterInner {
+            padding: 0 1rem;
+          }
+
+          .siteNav {
+            display: none;
+          }
+
+          .footerRight {
+            display: none;
+          }
           .chatHeader {
             padding: 1rem;
           }

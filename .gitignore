@@ -1,51 +1,46 @@
-# Dependencies
+# ── Dependencies ──────────────────────────────────────────────
 node_modules/
 .pnp
 .pnp.js
 
-# Testing
-/coverage
+# ── Next.js build output (matches root AND frontend/) ─────────
+.next/
+out/
 
-# Next.js
-/.next/
-/out/
+# ── Production / test artefacts ───────────────────────────────
+build/
+coverage/
+dist/
 
-# Production
-/build
+# ── Auto-generated vector store (embeddings, can be large) ────
+vector_store.json
 
-# Misc
-.DS_Store
-*.pem
-
-# Debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Local env files
+# ── Environment / secrets ─────────────────────────────────────
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# Vercel
+# ── Debug logs ────────────────────────────────────────────────
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# ── Vercel ────────────────────────────────────────────────────
 .vercel
 
-# Python
+# ── Python bytecode & build artefacts ──────────────────────────
 __pycache__/
-*.py[oc]
 *.py[cod]
 *$py.class
 *.so
 .Python
-build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -56,21 +51,29 @@ wheels/
 *.egg
 MANIFEST
 
-# Virtual environments
-.env
+# ── Python virtual environments ───────────────────────────────
 .venv
-env/
 venv/
+env/
 ENV/
 env.bak/
 venv.bak/
 
-# IDE
+# ── Xenova / Hugging Face model cache ─────────────────────────
+.cache/
+models/
+
+# ── IDE ───────────────────────────────────────────────────────
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# Mac
+# ── OS ────────────────────────────────────────────────────────
 .DS_Store
+Thumbs.db
+*.pem
+
+# ── Misc ──────────────────────────────────────────────────────
+*.pem

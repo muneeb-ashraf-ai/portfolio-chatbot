@@ -66,12 +66,22 @@ Currently, I am working in a challenging and rewarding role at **Meissasoft**. T
 
 Unlike my earlier internship, this role provides deep insight into industry practices, project structures, database design, API development, and application testing. Here, I truly feel part of the tech ecosystem.
 
+## The Road Ahead
+
+I was admitted to the MS Data Science program at UET, marking a new phase in my academic journey. The program strengthened my commitment to AI research and advanced learning. During my first semester, I studied new Data Science topics, expanded my technical skills, and achieved a CGPA of 3.68, reflecting consistent progress.
+
+At the same time, I continued my internship at Meissasoft, where I gained structured exposure to software development practices, system design, and collaborative workflows. While working there, I received a separate remote job opportunity in an R&D role focused on voice agent testing and development.
+
+In this role, I build and evaluate voice agents using Pipecat, while researching ways to improve efficiency and performance. The work involves understanding how real conversational systems operate, including Text-to-Speech (TTS), Speech-to-Text (STT), and Large Language Models (LLMs). I also explored prompt engineering and studied how AI agents reason, respond, and adapt in real environments.
+
+This experience moved my learning from theory to applied research. Instead of only implementing models, I now analyze behavior, reliability, and interaction quality, skills directly aligned with my long-term goal of contributing to advanced AI systems.
+
 ## Conclusion
 
-I have also been admitted to the **MS Data Science program at UET**, marking another milestone in my journey. With strong foundations in Mathematics, hands-on experience in Machine Learning and Deep Learning, and a passion for teaching and research, I aim to grow into a researcher who advances AI while solving real-world problems.
+My journey has been a gradual transformation rather than a single decision. Mathematics developed my problem-solving mindset. Teaching strengthened my ability to explain ideas clearly. Artificial Intelligence connected my curiosity with real-world impact.
 
-My journey has not been easy. Financial struggles, academic interruptions, and scholarship rejections shaped the path. Each challenge strengthened my resilience and clarified my purpose. Mathematics taught me logic, teaching taught me clarity, and Artificial Intelligence gave me vision.
+Financial limitations, academic interruptions, and repeated rejections did not stop my progress. They refined my direction. Today I am pursuing advanced studies while actively working with practical AI systems, bridging research and industry together.
 
-My ultimate goal is to pursue a **PhD**, contribute to **AI and Data Science research**, continue teaching, and build impactful, real-world applications through AI, whether in software houses or as a freelancer.
+My goal is to earn a PhD, contribute meaningful research in AI and Data Science, continue teaching, and build intelligent solutions that improve real-world life.
 
-**Let’s build something amazing together.**
+The path is still unfolding, and I am moving forward with clarity and purpose.

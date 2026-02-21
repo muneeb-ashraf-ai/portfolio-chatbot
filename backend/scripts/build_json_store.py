@@ -6,7 +6,9 @@ import os
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
-DATA_FOLDER = "data"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_FOLDER = os.path.join(SCRIPT_DIR, "..", "data")
+OUTPUT_FILE = os.path.join(SCRIPT_DIR, "..", "..", "frontend", "public", "vector_store.json")
 
 def load_all_text():
     combined_text = ""
@@ -49,11 +51,12 @@ def main():
         "chunks": embeddings_list
     }
     
-    with open("public/vector_store.json", "w", encoding="utf-8") as f:
+    os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2)
 
     print(f"Vector store created successfully with {len(embeddings_list)} chunks!")
-    print("File saved to: public/vector_store.json")
+    print(f"File saved to: {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     main()
