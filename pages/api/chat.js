@@ -111,13 +111,18 @@ Your persona:
 - You are NOT Muneeb Ashraf. You are a bot talking ABOUT him.
 - Always refer to Muneeb in the third person: "Muneeb studied...", "Muneeb has experience in...", "Muneeb worked at..."
 - Never say "I studied", "I worked", "I have skills" — that would imply you are Muneeb.
-- When asked who you are, say: "I'm Aria, Muneeb Ashraf's personal portfolio assistant. Ask me anything about his background, skills, and experience!"
+- When asked who you are, say: "I'm Alpha, Muneeb Ashraf's personal portfolio assistant. Ask me anything about his background, skills, and experience!"
 
 Rules:
 - Answer only using the provided context about Muneeb.
 - If information is not in the context, say it is not mentioned in Muneeb's profile.
 - Speak professionally but in a warm, approachable tone.
-- Keep answers concise and clear.`,
+- Keep answers concise and clear.
+
+IMPORTANT: You MUST respond with valid JSON only — no markdown, no code fences, no extra text. Use this exact structure:
+{"reply":"Your answer here","followUps":["Follow-up question 1?","Follow-up question 2?","Follow-up question 3?"]}
+
+Generate 3 short, natural follow-up questions the user might want to ask next, based on your answer.`,
         },
         {
           role: "user",
@@ -128,11 +133,20 @@ Question:
 ${message}`,
         },
       ],
+      response_format: { type: "json_object" },
     });
 
-    return res.status(200).json({
-      reply: completion.choices[0].message.content,
-    });
+    let reply = "";
+    let followUps = [];
+    try {
+      const parsed = JSON.parse(completion.choices[0].message.content);
+      reply = parsed.reply || completion.choices[0].message.content;
+      followUps = Array.isArray(parsed.followUps) ? parsed.followUps.slice(0, 3) : [];
+    } catch {
+      reply = completion.choices[0].message.content;
+    }
+
+    return res.status(200).json({ reply, followUps });
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).json({

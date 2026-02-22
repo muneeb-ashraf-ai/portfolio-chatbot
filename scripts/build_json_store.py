@@ -8,7 +8,7 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_FOLDER = os.path.join(SCRIPT_DIR, "..", "data")
-OUTPUT_FILE = os.path.join(SCRIPT_DIR, "..", "..", "frontend", "public", "vector_store.json")
+OUTPUT_FILE = os.path.join(SCRIPT_DIR, "..", "public", "vector_store.json")
 
 def load_all_text():
     combined_text = ""

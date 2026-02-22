@@ -3,7 +3,7 @@ node_modules/
 .pnp
 .pnp.js
 
-# ── Next.js build output (matches root AND frontend/) ─────────
+# ── Next.js build output ──────────────────────────────────────
 .next/
 out/
 
@@ -12,8 +12,8 @@ build/
 coverage/
 dist/
 
-# ── Auto-generated vector store (embeddings, can be large) ────
-vector_store.json
+# ── Auto-generated vector store (commit this — required for Vercel) ────
+# vector_store.json  ← do NOT ignore; this is the pre-built embedding file
 
 # ── Environment / secrets ─────────────────────────────────────
 .env

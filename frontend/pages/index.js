@@ -6,7 +6,6 @@ export default function Home() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [sendPulse, setSendPulse] = useState(false);
-  const [photoError, setPhotoError] = useState(false);
   const messagesEndRef = useRef(null);
   const canvasRef = useRef(null);
   const starsRef = useRef([]);
@@ -145,49 +144,54 @@ export default function Home() {
     };
   }, []);
 
-  const sendMessage = async (e) => {
-    e.preventDefault();
-
-    if (!input.trim()) return;
-
-    const userMessage = input.trim();
+  const sendText = async (text) => {
+    if (!text) return;
     setInput('');
     setSendPulse(true);
     setTimeout(() => setSendPulse(false), 180);
 
-    // Add user message
-    setMessages(prev => [...prev, { role: 'user', content: userMessage, time: new Date() }]);
+    setMessages(prev => [...prev, { role: 'user', content: text, time: new Date() }]);
     setLoading(true);
 
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: userMessage }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        setMessages(prev => [...prev, { role: 'assistant', content: data.reply, time: new Date() }]);
+        setMessages(prev => [...prev, {
+          role: 'assistant',
+          content: data.reply,
+          time: new Date(),
+          followUps: data.followUps || [],
+        }]);
       } else {
         setMessages(prev => [...prev, {
           role: 'assistant',
           content: `Error: ${data.error || 'Something went wrong'}`,
-          time: new Date()
+          time: new Date(),
+          followUps: [],
         }]);
       }
     } catch (error) {
       setMessages(prev => [...prev, {
         role: 'assistant',
         content: 'Failed to connect to the server.',
-        time: new Date()
+        time: new Date(),
+        followUps: [],
       }]);
     } finally {
       setLoading(false);
     }
+  };
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+    sendText(input.trim());
   };
 
   const clearChat = () => {
@@ -197,12 +201,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>CV Chatbot - Ask Me Anything</title>
+        <title>Muneeb Ashraf — AI Portfolio</title>
         <meta name="description" content="Interactive CV chatbot powered by RAG" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
       </Head>
 
       {/* AnimatedBackground — fixed blobs layer, matches AnimatedBackground.tsx */}
@@ -223,47 +225,33 @@ export default function Home() {
               <span className="siteLogoText">Muneeb Ashraf</span>
             </div>
             <nav className="siteNav">
-              <a href="#" className="siteNavLink">Portfolio</a>
-              <a href="#" className="siteNavLink">GitHub</a>
-              <a href="#" className="siteNavLink">LinkedIn</a>
+              <a href="https://muneeb-ashraf.vercel.app/" target="_blank" rel="noopener noreferrer" className="siteNavLink">Portfolio</a>
+              <a href="https://github.com/alphaaa-m" target="_blank" rel="noopener noreferrer" className="siteNavLink">GitHub</a>
+              <a href="https://www.linkedin.com/in/muneeb-ashraf-ai/" target="_blank" rel="noopener noreferrer" className="siteNavLink">LinkedIn</a>
+              <a href="https://wa.me/923006275648" target="_blank" rel="noopener noreferrer" className="siteNavLink siteNavIconLink" aria-label="WhatsApp">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>WhatsApp</span>
+              </a>
+              <a href="mailto:muneebashraf.edu@gmail.com" className="siteNavLink siteNavIconLink" aria-label="Email">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <span>Mail</span>
+              </a>
+              <a href="/assets/CV_Muneeb_Ashraf.pdf" download className="downloadCvBtn">
+                <span className="downloadCvIcon">↓</span>
+                <span>Download CV</span>
+              </a>
             </nav>
           </div>
         </header>
 
-        {/* ── Main split layout ── */}
+        {/* ── Main layout ── */}
         <div className="appShell">
           <canvas ref={canvasRef} className="particleCanvas" />
-          <aside className="profilePanel">
-
-          <div className="profileCard">
-            <div className="profileHalo">
-              {!photoError ? (
-                <img
-                  className="profileImage"
-                  src="/assets/profile.webp"
-                  alt="Muneeb Ashraf"
-                  onError={() => setPhotoError(true)}
-                />
-              ) : (
-                <div className="profileFallback" aria-label="Muneeb Ashraf initials">MA</div>
-              )}
-            </div>
-
-            <h1 className="profileName">Muneeb Ashraf</h1>
-            <p className="profileRole">AI Engineer • Data Scientist • Teacher</p>
-            <p className="profileBio">
-              This assistant answers questions about Muneeb’s background, skills, projects, and career journey.
-            </p>
-          </div>
-        </aside>
-
-        <div className="divider" role="separator" aria-orientation="vertical" />
-
-        <section className="chatPanel">
+          <section className="chatPanel">
           <header className="chatHeader">
             <div>
-              <h2 className="chatTitle">Muneeb AI Assistant</h2>
-              <p className="chatSubtitle">Ask anything about Muneeb</p>
+              <h2 className="chatTitle">Alpha — Muneeb's AI Assistant</h2>
+              <p className="chatSubtitle">Ask me anything about Muneeb's background, skills &amp; projects</p>
             </div>
             <div className="headerRight">
               <div className="statusWrap">
@@ -281,53 +269,48 @@ export default function Home() {
           <main className="messagesContainer">
             {messages.length === 0 ? (
               <div className="emptyState">
-                <h3 className="emptyTitle">👋 Let’s chat</h3>
-                <p className="emptyText">Try one of these prompts:</p>
+                <div className="emptyAvatar">α</div>
+                <h3 className="emptyTitle">Hi! I'm Alpha 👋</h3>
+                <p className="emptyText">Muneeb's personal AI assistant. Try one of these to get started:</p>
                 <div className="suggestions">
-                  <button
-                    onClick={() => setInput("What is your work experience?")}
-                    className="suggestionBtn"
-                  >
-                    What is your work experience?
-                  </button>
-                  <button
-                    onClick={() => setInput("Tell me about your skills")}
-                    className="suggestionBtn"
-                  >
-                    Tell me about your skills
-                  </button>
-                  <button
-                    onClick={() => setInput("What is your educational background?")}
-                    className="suggestionBtn"
-                  >
-                    What is your educational background?
-                  </button>
-                  <button
-                    onClick={() => setInput("What projects have you worked on?")}
-                    className="suggestionBtn"
-                  >
-                    What projects have you worked on?
-                  </button>
+                  <button onClick={() => sendText("Who is Muneeb?")} className="suggestionBtn">🙋 Who is Muneeb?</button>
+                  <button onClick={() => sendText("What are Muneeb's skills?")} className="suggestionBtn">⚡ What are Muneeb's skills?</button>
+                  <button onClick={() => sendText("Who are you?")} className="suggestionBtn">🤖 Who are you?</button>
+                  <button onClick={() => sendText("What projects has Muneeb worked on?")} className="suggestionBtn">🚀 What projects has Muneeb worked on?</button>
+                  <button onClick={() => sendText("What is Muneeb's educational background?")} className="suggestionBtn">🎓 What is Muneeb's educational background?</button>
                 </div>
               </div>
             ) : (
               <div className="messages">
                 {messages.map((msg, idx) => (
-                  <article
-                    key={idx}
-                    className={`message ${msg.role === 'user' ? 'userMessage' : 'assistantMessage'}`}
-                  >
-                    <div className="messageMeta">
-                      <span>{msg.role === 'user' ? 'You' : 'Assistant'}</span>
-                      <span>{msg.time ? msg.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}</span>
-                    </div>
-                    <div className="messageContent">{msg.content}</div>
-                  </article>
+                  <div key={idx}>
+                    <article
+                      className={`message ${msg.role === 'user' ? 'userMessage' : 'assistantMessage'}`}
+                    >
+                      <div className="messageMeta">
+                        <span>{msg.role === 'user' ? 'You' : 'Alpha'}</span>
+                        <span>{msg.time ? msg.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}</span>
+                      </div>
+                      <div className="messageContent">{msg.content}</div>
+                    </article>
+                    {msg.role === 'assistant' && msg.followUps && msg.followUps.length > 0 && (
+                      <div className="followUpsWrap">
+                        <span className="followUpsLabel">You might want to ask:</span>
+                        <div className="followUpsList">
+                          {msg.followUps.map((q, qi) => (
+                            <button key={qi} className="followUpBtn" onClick={() => sendText(q)}>
+                              {q}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 ))}
                 {loading && (
                   <article className="message assistantMessage">
                     <div className="messageMeta">
-                      <span>Assistant</span>
+                      <span>Alpha</span>
                       <span>Now</span>
                     </div>
                     <div className="messageContent typing">
@@ -343,14 +326,11 @@ export default function Home() {
           </main>
 
           <form onSubmit={sendMessage} className="composer">
-            <button type="button" className="attachBtn" aria-label="Attach file">
-              📎
-            </button>
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask a question..."
+              placeholder="Ask me anything about Muneeb…"
               className="input"
               disabled={loading}
             />
@@ -359,7 +339,7 @@ export default function Home() {
               className={`sendBtn ${sendPulse ? 'sendPulse' : ''}`}
               disabled={loading || !input.trim()}
             >
-              {loading ? '⏳' : 'Send'}
+              {loading ? '⏳' : '➤'}
             </button>
           </form>
         </section>
@@ -369,7 +349,7 @@ export default function Home() {
         <footer className="siteFooter">
           <div className="siteFooterInner">
             <span className="footerLeft">© 2025 Muneeb Ashraf · All rights reserved</span>
-            <span className="footerRight">Powered by RAG · Built with Next.js</span>
+            <span className="footerRight">Powered by RAG</span>
           </div>
         </footer>
 
@@ -492,14 +472,20 @@ export default function Home() {
           background: rgba(255, 255, 255, 0.05);
         }
 
-        /* ── Split layout ── */
+        .siteNavIconLink {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+        }
+
+        /* ── Single-panel layout ── */
         .appShell {
           min-height: 0;
           height: 100%;
           width: 100%;
           background: transparent;
           display: grid;
-          grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr);
+          grid-template-columns: 1fr;
           overflow: hidden;
           position: relative;
         }
@@ -776,13 +762,16 @@ export default function Home() {
           display: grid;
           grid-template-rows: auto 1fr auto;
           z-index: 1;
+          max-width: 860px;
+          width: 100%;
+          margin: 0 auto;
+          background: transparent;
         }
 
         .chatHeader {
-          padding: 1.2rem 1.4rem;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-          background: rgba(20, 10, 30, 0.3);
-          backdrop-filter: blur(14px);
+          padding: 0.9rem 1.4rem 0.5rem;
+          border-bottom: none;
+          background: transparent;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -846,8 +835,27 @@ export default function Home() {
         .messagesContainer {
           min-height: 0;
           overflow-y: auto;
-          padding: 1.25rem;
-          background: rgba(14, 8, 22, 0.55);
+          padding: 1.5rem 1.25rem;
+          background: transparent;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(157, 104, 193, 0.5) transparent;
+        }
+
+        .messagesContainer::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        .messagesContainer::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .messagesContainer::-webkit-scrollbar-thumb {
+          background: linear-gradient(180deg, rgba(107, 59, 142, 0.7) 0%, rgba(196, 181, 253, 0.5) 100%);
+          border-radius: 999px;
+        }
+
+        .messagesContainer::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(180deg, rgba(107, 59, 142, 1) 0%, rgba(196, 181, 253, 0.85) 100%);
         }
 
         .messages {
@@ -882,20 +890,24 @@ export default function Home() {
 
         .userMessage {
           margin-left: auto;
-          background: var(--color-primary);
-          color: var(--color-text-primary);
+          background: rgba(107, 59, 142, 0.92);
+          color: #fff;
           border-bottom-right-radius: 6px;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 4px 24px rgba(107, 59, 142, 0.5);
         }
 
         .userMessage .messageMeta {
-          color: rgba(255, 255, 255, 0.6);
+          color: rgba(255, 255, 255, 0.65);
         }
 
         .assistantMessage {
           margin-right: auto;
-          background: var(--color-surface-alt);
-          border: 1px solid var(--color-border);
+          background: rgba(18, 8, 28, 0.88);
+          border: 1px solid rgba(196, 181, 253, 0.18);
           border-bottom-left-radius: 6px;
+          backdrop-filter: blur(14px);
+          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
         }
 
         .typing {
@@ -921,11 +933,28 @@ export default function Home() {
         }
 
         .emptyState {
-          display: grid;
-          place-items: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
           text-align: center;
           min-height: 100%;
           padding: 2rem 1rem;
+          gap: 0;
+        }
+
+        .emptyAvatar {
+          width: 68px;
+          height: 68px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+          display: grid;
+          place-items: center;
+          font-size: 2rem;
+          font-weight: 800;
+          color: #fff;
+          margin: 0 auto 1rem;
+          box-shadow: 0 0 40px rgba(196, 181, 253, 0.35);
         }
 
         .emptyTitle {
@@ -935,62 +964,118 @@ export default function Home() {
         }
 
         .emptyText {
-          margin: 0.6rem 0 1.2rem;
+          margin: 0.6rem 0 1.4rem;
           color: var(--color-text-secondary);
           font-weight: 400;
         }
 
         .suggestions {
           display: grid;
-          grid-template-columns: 1fr;
-          gap: 0.7rem;
-          width: min(560px, 100%);
+          grid-template-columns: 1fr 1fr;
+          gap: 0.65rem;
+          width: min(600px, 100%);
         }
 
         .suggestionBtn {
-          border: 1px solid var(--color-border);
-          background: var(--color-surface-alt);
+          border: 1px solid rgba(196, 181, 253, 0.25);
+          background: rgba(18, 8, 28, 0.75);
           color: var(--color-text-primary);
           border-radius: 12px;
           padding: 0.78rem 0.95rem;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
           text-align: left;
           cursor: pointer;
-          transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+          backdrop-filter: blur(12px);
+          transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base), background var(--transition-base);
+          line-height: 1.4;
         }
 
         .suggestionBtn:hover {
           transform: translateY(-2px);
           border-color: #C4B5FD;
-          box-shadow: 0 12px 30px rgba(196, 181, 253, 0.18);
+          background: rgba(107, 59, 142, 0.35);
+          box-shadow: 0 12px 30px rgba(196, 181, 253, 0.2);
+        }
+
+        /* Follow-up questions */
+        .followUpsWrap {
+          margin: 0.35rem 0 0.6rem 0;
+          padding-left: 0.2rem;
+        }
+
+        .followUpsLabel {
+          display: block;
+          font-size: 0.72rem;
+          color: var(--color-text-secondary);
+          margin-bottom: 0.4rem;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+        }
+
+        .followUpsList {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.45rem;
+        }
+
+        .followUpBtn {
+          border: 1px solid rgba(196, 181, 253, 0.35);
+          background: rgba(107, 59, 142, 0.18);
+          color: #C4B5FD;
+          border-radius: 999px;
+          padding: 0.38rem 0.85rem;
+          font-size: 0.82rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base), border-color var(--transition-base);
+          white-space: nowrap;
+        }
+
+        .followUpBtn:hover {
+          transform: translateY(-1px);
+          background: rgba(107, 59, 142, 0.38);
+          border-color: #C4B5FD;
+          box-shadow: 0 6px 18px rgba(196, 181, 253, 0.2);
+        }
+
+        .downloadCvBtn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          border: none;
+          background: linear-gradient(135deg, #6B3B8E 0%, #9D68C1 65%, #C4B5FD 100%);
+          color: #fff;
+          border-radius: 10px;
+          padding: 0.42rem 1rem;
+          font-size: 0.85rem;
+          font-weight: 700;
+          text-decoration: none;
+          cursor: pointer;
+          letter-spacing: 0.02em;
+          box-shadow: 0 3px 14px rgba(107, 59, 142, 0.5);
+          transition: transform var(--transition-base), box-shadow var(--transition-base), filter var(--transition-base);
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
+
+        .downloadCvBtn:hover {
+          transform: translateY(-2px) scale(1.04);
+          filter: brightness(1.12);
+          box-shadow: 0 8px 28px rgba(107, 59, 142, 0.65);
+        }
+
+        .downloadCvIcon {
+          font-size: 0.9rem;
         }
 
         .composer {
-          padding: 1rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-          background: rgba(10, 5, 20, 0.85);
-          backdrop-filter: blur(14px);
+          padding: 0.75rem 1rem 1rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.07);
+          background: rgba(8, 4, 16, 0.6);
+          backdrop-filter: blur(18px);
           display: flex;
           align-items: center;
           gap: 0.75rem;
-        }
-
-        .attachBtn {
-          width: 42px;
-          height: 42px;
-          border-radius: 12px;
-          border: 1px solid var(--color-border);
-          background: var(--color-surface-alt);
-          color: var(--color-text-primary);
-          font-size: 1rem;
-          cursor: pointer;
-          transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
-        }
-
-        .attachBtn:hover {
-          transform: translateY(-2px);
-          border-color: #C4B5FD;
-          box-shadow: 0 10px 24px rgba(196, 181, 253, 0.2);
         }
 
         .input {
@@ -1096,48 +1181,8 @@ export default function Home() {
         }
 
         @media (max-width: 1024px) {
-          .appShell {
-            min-height: 0;
-            grid-template-columns: 1fr;
-            grid-template-rows: auto 14px 1fr;
-          }
-
-          .profilePanel {
-            height: auto;
-            padding: 1.4rem 1rem;
-          }
-
           .chatPanel {
-            height: 100%;
-          }
-
-          .divider {
-            height: 14px;
-            /* horizontal gradient fade on mobile */
-          }
-
-          .divider::before {
-            background: linear-gradient(
-              to bottom,
-              transparent 0%,
-              rgba(107, 59, 142, 0.28) 50%,
-              transparent 100%
-            );
-          }
-
-          .divider::after {
-            inset: 20% -30%;
-            height: 60%;
-            width: auto;
-            background: linear-gradient(
-              90deg,
-              transparent,
-              rgba(196, 181, 253, 0.22),
-              rgba(125, 79, 179, 0.28),
-              rgba(196, 181, 253, 0.22),
-              transparent
-            );
-            animation: streakH 5s linear infinite;
+            max-width: 100%;
           }
         }
 
@@ -1154,6 +1199,7 @@ export default function Home() {
           .footerRight {
             display: none;
           }
+
           .chatHeader {
             padding: 1rem;
           }
@@ -1170,8 +1216,8 @@ export default function Home() {
             max-width: 92%;
           }
 
-          .profileCard {
-            padding: 1.4rem;
+          .suggestions {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>
