@@ -1461,83 +1461,172 @@ export default function Home() {
           }
         }
 
+        @media (max-width: 768px) {
+          .siteHeaderInner {
+            padding: 0 1rem;
+            height: 50px;
+          }
+
+          .siteNav {
+            gap: 0.15rem;
+          }
+
+          .siteNavLink {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+          }
+
+          .chatPanel {
+            max-width: 100%;
+          }
+
+          .message {
+            max-width: min(85%, 500px);
+            font-size: 0.95rem;
+          }
+
+          .messageMeta {
+            font-size: 0.7rem;
+          }
+
+          .messagesContainer {
+            padding: 1.25rem 1rem;
+          }
+
+          .composer {
+            padding: 0.65rem 0.85rem 0.9rem;
+            gap: 0.6rem;
+          }
+
+          .input {
+            font-size: 0.9rem;
+            padding: 0.7rem 0.85rem;
+          }
+
+          .sendBtn {
+            padding: 0.7rem 0.9rem;
+            min-width: 70px;
+          }
+
+          .chatTitle {
+            font-size: 1.1rem;
+          }
+
+          .chatSubtitle {
+            font-size: 0.8rem;
+          }
+        }
+
         @media (max-width: 640px) {
-          /* ── Shell becomes a flex column so we can reorder panels ── */
+          /* ── Global padding/sizing ── */
+          :global(html), :global(body) {
+            font-size: 14px;
+          }
+
+          /* ── Shell becomes flex column ── */
           .appShell,
           .appShellWide {
             display: flex;
             flex-direction: column;
+            grid-template-columns: unset;
           }
 
-          /* ── Header: shrink to icon-only compact row ── */
-          .siteHeaderInner,
-          .siteFooterInner {
-            padding: 0 0.75rem;
+          /* ── Header: more compact ── */
+          .siteHeaderInner {
+            padding: 0 0.6rem;
+            height: 48px;
+            gap: 0.5rem;
+          }
+
+          .siteHeader {
+            flex-shrink: 0;
+            z-index: 10;
+          }
+
+          .siteLogo {
+            gap: 0.5rem;
+            flex-shrink: 1;
+            min-width: 0;
+          }
+
+          .siteLogoMark {
+            width: 30px;
+            height: 30px;
+            font-size: 0.7rem;
+          }
+
+          .siteLogoText {
+            font-size: 0.85rem;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
 
           .siteNav {
             display: flex;
             overflow-x: auto;
             scrollbar-width: none;
-            gap: 0.1rem;
+            gap: 0.05rem;
             flex-shrink: 1;
+            -webkit-overflow-scrolling: touch;
           }
 
           .siteNav::-webkit-scrollbar { display: none; }
 
-          /* Hide text labels — keep SVG icons only */
-          .siteNavIconLink span:last-child {
+          .siteNavIconLink span:last-child,
+          .siteNavLink:not(.siteNavIconLink) span:not(.downloadCvIcon) {
             display: none;
           }
 
-          /* LinkedIn plain link becomes icon-only */
-          .siteNavLink:not(.siteNavIconLink) {
-            padding: 0.35rem 0.55rem;
-            font-size: 0.75rem;
-          }
-
-          /* Download CV: hide text, keep arrow */
-          .downloadCvBtn span:not(.downloadCvIcon) {
-            display: none;
+          .siteNavLink {
+            padding: 0.3rem 0.5rem;
+            font-size: 0.7rem;
+            border-radius: 6px;
+            flex-shrink: 0;
           }
 
           .downloadCvBtn {
-            padding: 0.38rem 0.6rem;
+            padding: 0.35rem 0.55rem;
             min-width: unset;
+            font-size: 0.75rem;
+            flex-shrink: 0;
           }
 
-          /* ── Left panel → top strip (order 1) ── */
+          /* ── Left panel → horizontal strip at bottom ── */
           .suggestionsPanel {
             display: flex !important;
             flex-direction: row;
             align-items: center;
             flex-shrink: 0;
-            order: 1;
-            padding: 0.45rem 0.75rem;
+            order: 2;
+            padding: 0.4rem 0.6rem;
             gap: 0;
             border-right: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            border-bottom: none;
             overflow-x: auto;
             overflow-y: hidden;
             scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
             height: auto;
-            max-height: 52px;
+            max-height: 48px;
           }
 
           .suggestionsPanel::-webkit-scrollbar { display: none; }
 
           .suggestionsPanel .suggestionsPanelHeader {
             flex-shrink: 0;
-            padding: 0 0.55rem 0 0;
+            padding: 0 0.5rem 0 0;
             border-bottom: none;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 0;
-            margin-right: 0.55rem;
+            margin-right: 0.5rem;
+            gap: 0.2rem;
           }
 
           .suggestionsPanel .suggestionsPanelTitle {
             white-space: nowrap;
-            font-size: 0.68rem;
+            font-size: 0.65rem;
           }
 
           .suggestionsPanel .suggestionsPanelIcon { display: none; }
@@ -1546,100 +1635,236 @@ export default function Home() {
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
-            gap: 0.4rem;
+            gap: 0.35rem;
           }
 
           .suggestionsPanel .sideSuggestionBtn {
             flex-shrink: 0;
             white-space: nowrap;
-            padding: 0.3rem 0.65rem;
-            font-size: 0.78rem;
+            padding: 0.28rem 0.55rem;
+            font-size: 0.72rem;
             border-radius: 999px;
             width: auto;
+            line-height: 1.2;
           }
 
-          /* ── Right panel → second strip (order 2) ── */
+          /* ── Right panel → hidden or second strip ── */
           .followUpsPanel {
-            display: flex !important;
-            flex-direction: row;
-            align-items: center;
-            flex-shrink: 0;
-            order: 2;
-            padding: 0.45rem 0.75rem;
-            gap: 0;
-            border-left: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-            overflow-x: auto;
-            overflow-y: hidden;
-            scrollbar-width: none;
-            height: auto;
-            max-height: 52px;
-            animation: none;
+            display: none !important;
           }
 
-          .followUpsPanel::-webkit-scrollbar { display: none; }
-
-          .followUpsPanel .followUpsPanelHeader {
-            flex-shrink: 0;
-            padding: 0 0.55rem 0 0;
-            border-bottom: none;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 0;
-            margin-right: 0.55rem;
+          /* Show follow-ups only when there's space (via inline check) */
+          @supports (display: flex) {
+            .followUpsPanel {
+              display: none !important;
+            }
           }
 
-          .followUpsPanel .followUpsPanelTitle {
-            white-space: nowrap;
-            font-size: 0.68rem;
+          /* ── Chat panel takes full remaining space ── */
+          .chatPanel {
+            order: 1;
+            flex: 1;
+            min-height: 0;
+            max-width: 100%;
+            margin: 0;
+            width: 100%;
           }
 
-          .followUpsPanel .followUpsPanelIcon { display: none; }
-
-          .followUpsPanel .followUpsPanelList {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
+          .chatHeader {
+            padding: 0.75rem;
+            flex-direction: column;
+            align-items: flex-start;
             gap: 0.4rem;
           }
 
-          .followUpsPanel .followUpSideBtn {
-            flex-shrink: 0;
-            white-space: nowrap;
-            padding: 0.3rem 0.65rem;
-            font-size: 0.78rem;
-            border-radius: 999px;
-            width: auto;
+          .chatTitle {
+            font-size: 1rem;
+            margin-bottom: 0;
           }
 
-          /* ── Chat takes remaining space (order 3) ── */
-          .chatPanel {
-            order: 3;
-            flex: 1;
-            min-height: 0;
+          .chatSubtitle {
+            font-size: 0.75rem;
+            margin: 0;
+          }
+
+          .headerRight {
+            align-self: flex-end;
+            gap: 0.5rem;
+          }
+
+          .statusWrap {
+            font-size: 0.75rem;
+          }
+
+          .clearBtn {
+            padding: 0.35rem 0.6rem;
+            font-size: 0.75rem;
+          }
+
+          .messagesContainer {
+            padding: 0.9rem 0.75rem;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+          }
+
+          .messages {
+            gap: 0.75rem;
+          }
+
+          .message {
+            max-width: min(90%, 100%);
+            padding: 0.7rem 0.85rem;
+            border-radius: 14px;
+            font-size: 0.9rem;
+          }
+
+          .messageMeta {
+            font-size: 0.65rem;
+            gap: 0.6rem;
+          }
+
+          .messageContent {
+            line-height: 1.5;
+            word-break: break-word;
+          }
+
+          .emptyTitle {
+            font-size: 1.3rem;
+          }
+
+          .emptyText {
+            font-size: 0.85rem;
+          }
+
+          /* ── Input/send improvements ── */
+          .composer {
+            padding: 0.6rem 0.75rem 0.8rem;
+            gap: 0.55rem;
+            flex-shrink: 0;
+          }
+
+          .input {
+            font-size: 0.9rem;
+            padding: 0.65rem 0.8rem;
+            border-radius: 10px;
+            min-height: 40px;
+          }
+
+          .sendBtn {
+            padding: 0.65rem 0.8rem;
+            min-width: 60px;
+            font-size: 0.85rem;
+            border-radius: 10px;
+            flex-shrink: 0;
+          }
+
+          /* ── Contact bar ── */
+          .contactBar {
+            font-size: 0.7rem;
+            gap: 0.35rem;
+            margin-top: 0.5rem;
+            padding-top: 0.4rem;
+          }
+
+          .contactBarText {
+            font-size: 0.7rem;
+          }
+
+          .contactBarBtn {
+            padding: 0.25rem 0.6rem;
+            font-size: 0.7rem;
+          }
+
+          /* ── Contact modal ── */
+          .contactModalCard {
+            width: min(95vw, 340px);
+            padding: 1.25rem 1.5rem;
+            border-radius: 16px;
+          }
+
+          .contactModalTitle {
+            font-size: 1rem;
+          }
+
+          .contactModalSub {
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
           }
 
           .contactModalOptions {
             grid-template-columns: 1fr;
+            gap: 0.5rem;
+          }
+
+          .contactOption {
+            padding: 0.65rem 0.9rem;
+            font-size: 0.85rem;
+            gap: 0.5rem;
+          }
+
+          .contactOptionIcon {
+            width: 28px;
+            height: 28px;
+          }
+
+          /* ── Footer: more compact ── */
+          .siteFooterInner {
+            padding: 0 0.6rem;
+            height: 40px;
+            font-size: 0.7rem;
           }
 
           .footerRight {
             display: none;
           }
 
-          .chatHeader {
-            padding: 1rem;
+          .footerLeft {
+            font-size: 0.7rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
 
-          .headerRight {
-            gap: 0.5rem;
+          /* ── Particle canvas: disable on mobile ── */
+          .particleCanvas {
+            display: none;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .chatHeader {
+            padding: 0.65rem;
           }
 
           .messagesContainer {
-            padding: 1rem 0.8rem;
+            padding: 0.75rem 0.6rem;
+          }
+
+          .composer {
+            padding: 0.55rem 0.65rem;
+          }
+
+          .input {
+            font-size: 16px;
+            padding: 0.6rem 0.75rem;
           }
 
           .message {
-            max-width: 92%;
+            max-width: 95%;
+            padding: 0.6rem 0.75rem;
+            font-size: 0.88rem;
+          }
+
+          .siteLogo {
+            gap: 0.3rem;
+          }
+
+          .siteLogoMark {
+            width: 28px;
+            height: 28px;
+          }
+
+          .siteLogoText {
+            display: none;
           }
         }
       `}</style>
