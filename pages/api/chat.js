@@ -94,18 +94,37 @@ export default async function handler(req, res) {
     console.log("Searching for similar chunks...");
     const context = await findSimilarChunks(embedding, store, 4);
 
-    // Generate response using Groq
-    console.log("Generating response with Groq...");
-    const groq = new Groq({
-      apiKey: process.env.GROQ_API_KEY,
-    });
+    // Get keys from environment variables
+    const apiKeys = [
+      process.env.GROQ_API_KEY_1,
+      process.env.GROQ_API_KEY_2,
+      process.env.GROQ_API_KEY_3,
+      process.env.GROQ_API_KEY_4,
+      process.env.GROQ_API_KEY_5,
+      process.env.GROQ_API_KEY // Fallback to single key if exists
+    ].filter(k => k && k.trim().length > 0);
 
-    const completion = await groq.chat.completions.create({
-      model: "llama-3.1-8b-instant",
-      messages: [
-        {
-          role: "system",
-          content: `You are Alpha, a smart and friendly AI assistant created to represent Muneeb Ashraf's professional portfolio.
+    if (apiKeys.length === 0) {
+      return res.status(500).json({ error: "No Groq API keys configured." });
+    }
+
+    let completion;
+    let success = false;
+    let lastError = null;
+
+    for (let i = 0; i < apiKeys.length; i++) {
+      try {
+        console.log(`Generating response with Groq (Using Key ${i + 1}/${apiKeys.length})...`);
+        const groq = new Groq({
+          apiKey: apiKeys[i],
+        });
+
+        completion = await groq.chat.completions.create({
+          model: "llama-3.1-8b-instant",
+          messages: [
+            {
+              role: "system",
+              content: `You are Alpha, a smart and friendly AI assistant created to represent Muneeb Ashraf's professional portfolio.
 
 Your persona:
 - You are NOT Muneeb Ashraf. You are a bot talking ABOUT him.
@@ -123,18 +142,30 @@ IMPORTANT: You MUST respond with valid JSON only — no markdown, no code fences
 {"reply":"Your answer here","followUps":["Follow-up question 1?","Follow-up question 2?","Follow-up question 3?"]}
 
 Generate 3 short, natural follow-up questions the user might want to ask next, based on your answer.`,
-        },
-        {
-          role: "user",
-          content: `Context:
+            },
+            {
+              role: "user",
+              content: `Context:
 ${context}
 
 Question:
 ${message}`,
-        },
-      ],
-      response_format: { type: "json_object" },
-    });
+            },
+          ],
+          response_format: { type: "json_object" },
+        });
+
+        success = true;
+        break; // Break the loop if successful
+      } catch (error) {
+        console.error(`Error with Groq API Key ${i + 1}:`, error.message || error);
+        lastError = error;
+      }
+    }
+
+    if (!success) {
+      throw lastError || new Error("All provided Groq API keys failed.");
+    }
 
     let reply = "";
     let followUps = [];
