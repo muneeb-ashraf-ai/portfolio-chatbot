@@ -2,16 +2,17 @@
 
 ## Professional Identity
 
-I am Muneeb Ashraf, a mathematician, machine learning engineer, data scientist, and educator from Pakistan. I specialize in transforming mathematical concepts into practical AI systems using Python, deep learning, and modern software engineering practices. My work spans education, research, computer vision, API development, and AI-driven applications.
+I am Muneeb Ashraf, a mathematician, machine learning engineer, data scientist, and educator from Pakistan. I specialize in transforming mathematical concepts into practical AI systems using Python, deep learning, and modern software engineering practices. My work spans education, research, computer vision, backend API development, voice AI, and AI-driven applications.
 
 ## Education
+
+**MS Data Science** - University of Engineering and Technology (UET), Lahore
+- Currently pursuing (2025 – 2027)
+- CGPA: 3.68 / 4.00
 
 **Master of Science in Mathematics** - Government College University (GCU), Lahore
 - CGPA: 3.37 / 4.00
 - Specialization: Pure and Applied Mathematics
-
-**MS Data Science** - University of Engineering and Technology (UET), Lahore
-- Currently pursuing
 
 **Artificial Intelligence Training** - NAVTTC at Minhaj University Lahore
 - Focus: Machine Learning and Deep Learning
@@ -28,9 +29,10 @@ Calculus (Single & Multivariable), Linear Algebra, Probability Theory, Statistic
 
 ## Teaching Experience
 
-I have several years of experience teaching mathematics at various levels:
+I have several years of experience teaching mathematics and, more recently, Python and AI at various levels:
 
 **Subjects I Teach:**
+- Python Programming Fundamentals and Advanced Python Development
 - School Mathematics (Grades 5-9)
 - Board Exam Preparation
 - Algebra, Geometry, Trigonometry
@@ -38,6 +40,8 @@ I have several years of experience teaching mathematics at various levels:
 - Probability and Statistics
 - Machine Learning Mathematics
 - AI Foundations
+
+**Recent Role:** Python & AI Instructor at Viper Academy, Lahore, where I deliver training in Python programming, data fundamentals, and introductory AI concepts to PSDF-sponsored vocational learners, guiding them through practical exercises in Python, data handling, and the foundations of machine learning.
 
 **Teaching Philosophy:**
 My approach focuses on simplifying complex ideas using examples and intuition, connecting theory with real-world applications, and helping students develop critical thinking skills rather than rote memorization.
@@ -48,6 +52,8 @@ My approach focuses on simplifying complex ideas using examples and intuition, c
 **Programming:** Python (Expert), NumPy, Pandas, Matplotlib, Scikit-learn
 
 **Deep Learning:** TensorFlow, Keras, CNN Architectures, Transfer Learning
+
+**Voice AI:** PipeCat, LLM Integration, Speech-to-Text (STT), Text-to-Speech (TTS), Conversational AI Evaluation
 
 **NLP:** NLTK, Text Processing, Sentiment Analysis
 
@@ -85,6 +91,7 @@ I design and implement end-to-end ML pipelines including:
 **AI Applications:**
 - Career Recommendation Chatbot
 - RAG-based CV Chatbot
+- Voice AI Agents (PipeCat-based, integrating LLMs with STT/TTS pipelines)
 - Educational AI Tools
 
 **Software Engineering:**
@@ -92,6 +99,14 @@ I design and implement end-to-end ML pipelines including:
 - Chess Game Engine (Python OOP)
 - Ride Sharing Simulation
 - RESTful API Services
+
+## Voice AI & Conversational Systems
+
+Alongside my software and teaching work, I built and tested AI voice bots as a Remote AI Developer, focusing on:
+- Building and evaluating voice agents using PipeCat
+- Integrating Large Language Models (LLMs) with Text-to-Speech (TTS) and Speech-to-Text (STT) systems
+- Analyzing conversational performance, reliability, and interaction quality
+- Prompt engineering and studying how AI agents reason, respond, and adapt in real environments
 
 ## Deep Learning & Computer Vision
 
@@ -115,6 +130,8 @@ I build scalable, production-ready backend systems with:
 - Clean code principles and OOP design
 - Version control and collaboration with Git
 - Database migrations using Alembic
+
+I gained this experience as a Python Developer at Meissasoft, Lahore, where I developed backend applications using FastAPI, PostgreSQL, and MongoDB, and strengthened my OOP and DSA skills through real-world projects while collaborating with a team via Git.
 
 ### Development Approach
 - Write modular, maintainable code
@@ -140,10 +157,11 @@ I maintain a research-oriented mindset focused on:
 ## Work Experience & Style
 
 **Roles I've Held:**
+- Python & AI Instructor (Viper Academy)
+- Remote AI Developer (Voice Bots / PipeCat / STT-TTS)
+- Python Developer (Meissasoft)
 - Mathematics Teacher (Multiple years)
-- Data Analyst
 - Machine Learning Intern
-- Backend Development Intern
 
 **Work Approach:**
 - Theory meets practice
@@ -156,6 +174,7 @@ I maintain a research-oriented mindset focused on:
 
 I offer expertise in:
 - AI/ML Engineering and Consulting
+- Voice AI and Conversational System Development
 - Data Science and Analytics
 - Computer Vision Solutions
 - Python Backend Development
@@ -165,6 +184,7 @@ I offer expertise in:
 
 **Collaboration Areas:**
 - ML model development and deployment
+- Voice AI agent design, testing, and evaluation
 - Data analysis and visualization
 - Computer vision applications
 - API development and integration
@@ -193,7 +213,7 @@ From years of teaching, I excel at:
 
 My approach blends:
 - **Mathematics** for logical foundations
-- **Teaching** for clarity and communication  
+- **Teaching** for clarity and communication
 - **AI** for real-world impact
 
 **Core Beliefs:**
@@ -204,7 +224,7 @@ My approach blends:
 - Share knowledge generously
 
 **Journey:**
-My path has been shaped by resilience, self-directed learning, and commitment to continuous improvement. I believe in the power of education, the importance of mathematical thinking, and the potential of AI to transform society.
+My path has been shaped by resilience, self-directed learning, and commitment to continuous improvement. I believe in the power of education, the importance of mathematical thinking, and the potential of AI to transform society. My recent work in Voice AI research and development expanded my understanding of intelligent systems, pushing me beyond theory into the study of how AI truly listens, reasons, and responds.
 
 ## Technical Stack Summary
 
@@ -214,6 +234,8 @@ My path has been shaped by resilience, self-directed learning, and commitment to
 
 **Data Science:** NumPy, Pandas, Matplotlib, Seaborn, Plotly
 
+**Voice AI:** PipeCat, LLM Integrations, STT, TTS
+
 **Backend:** FastAPI, SQLAlchemy, Alembic
 
 **Databases:** PostgreSQL, MongoDB, SQLite
@@ -222,7 +244,7 @@ My path has been shaped by resilience, self-directed learning, and commitment to
 
 **Tools:** Git, Jupyter, Docker, Postman
 
-**Concepts:** OOP, Data Structures, Algorithms, REST APIs, Database Design, ML Pipelines, Model Deployment
+**Concepts:** OOP, Data Structures, Algorithms, REST APIs, Database Design, ML Pipelines, Model Deployment, Conversational AI Evaluation
 
 ## Geographic & Contact Context
 

@@ -48,7 +48,7 @@ I then joined **InsightSol Technologies** for a one-month remote internship. My 
 
 After the internship, I continued teaching at **Hajveri Lyceum School**, where I taught Mathematics to grades 5 through 9. Teaching kept me financially stable and allowed me to refine my communication skills by simplifying complex ideas for young learners.
 
-## The Road Ahead
+## Preparing to Study Abroad
 
 Alongside teaching, I began preparing to study abroad. I took the **IELTS**, achieving an overall **7.0 band score**:
 - Listening: 8.0
@@ -56,32 +56,30 @@ Alongside teaching, I began preparing to study abroad. I took the **IELTS**, ach
 - Writing: 6.5
 - Speaking: 6.0
 
-Despite applying for multiple international scholarships, my **2+2 degree structure (BSc + MSc)** led to repeated rejections. This was a discouraging phase, but it strengthened my resolve. I adopted a step-by-step strategy, completing an MS in Pakistan first, then reapplying abroad for a PhD.
+Despite applying for multiple international scholarships, my **2+2 degree structure (BSc + MSc)** led to repeated rejections. This was a discouraging phase, but it strengthened my resolve. I adopted a step-by-step strategy: completing an MS in Pakistan first, then reapplying abroad for a PhD.
 
-Currently, I am working in a challenging and rewarding role at **Meissasoft**. This full-fledged internship goes beyond coding. I gain real industry exposure by:
+Following this decision, I joined **Meissasoft** in a challenging and rewarding role that went beyond coding. I gained real industry exposure by:
 - Practicing OOP through a **Chess Game Engine** and **Ride-Sharing Simulation**
 - Solving **Data Structures and Algorithms** problems on HackerRank
 - Designing **SQL databases**
 - Building a **CRUD-based Student Management System** using **FastAPI and SQLAlchemy**
 
-Unlike my earlier internship, this role provides deep insight into industry practices, project structures, database design, API development, and application testing. Here, I truly feel part of the tech ecosystem.
+Unlike my earlier internship, this role provided deep insight into industry practices, project structures, database design, API development, and application testing, developing backend applications using FastAPI, PostgreSQL, and MongoDB. Here, I truly felt part of the tech ecosystem.
 
-## The Road Ahead
+## MS Data Science, Voice AI, and Teaching at Viper Academy
 
-I was admitted to the MS Data Science program at UET, marking a new phase in my academic journey. The program strengthened my commitment to AI research and advanced learning. During my first semester, I studied new Data Science topics, expanded my technical skills, and achieved a CGPA of 3.68, reflecting consistent progress.
+I was admitted to the MS Data Science program at UET, marking a new phase in my academic journey. The program strengthened my commitment to AI research and advanced learning. During my studies, I have continued deepening my technical skills, achieving a CGPA of 3.68/4.00, reflecting consistent progress.
 
-At the same time, I continued my internship at Meissasoft, where I gained structured exposure to software development practices, system design, and collaborative workflows. While working there, I received a separate remote job opportunity in an R&D role focused on voice agent testing and development.
+While pursuing my MS and continuing at Meissasoft as a Python Developer, I received a separate remote opportunity as a Remote AI Developer, focused on building and testing AI voice bots using Python and PipeCat. In this role, I integrated Large Language Models (LLMs) with Text-to-Speech (TTS) and Speech-to-Text (STT) systems, and evaluated conversational performance to improve response quality. The work involved understanding how real conversational systems operate and gave me hands-on experience with prompt engineering and how AI agents reason, respond, and adapt in real environments. This experience moved my learning from theory to applied research: instead of only implementing models, I began analyzing behavior, reliability, and interaction quality, skills directly aligned with my long-term goal of contributing to advanced AI systems.
 
-In this role, I build and evaluate voice agents using Pipecat, while researching ways to improve efficiency and performance. The work involves understanding how real conversational systems operate, including Text-to-Speech (TTS), Speech-to-Text (STT), and Large Language Models (LLMs). I also explored prompt engineering and studied how AI agents reason, respond, and adapt in real environments.
-
-This experience moved my learning from theory to applied research. Instead of only implementing models, I now analyze behavior, reliability, and interaction quality, skills directly aligned with my long-term goal of contributing to advanced AI systems.
+Most recently, I returned to teaching in a new form as a **Python & AI Instructor at Viper Academy**, Lahore, delivering training in Python programming, data fundamentals, and introductory AI concepts to PSDF-sponsored vocational learners. Guiding students through practical exercises in Python, data handling, and the foundations of machine learning reaffirmed how much I enjoy combining my technical growth with teaching.
 
 ## Conclusion
 
-My journey has been a gradual transformation rather than a single decision. Mathematics developed my problem-solving mindset. Teaching strengthened my ability to explain ideas clearly. Artificial Intelligence connected my curiosity with real-world impact.
+My journey has been a gradual transformation rather than a single decision. Mathematics developed my problem-solving mindset. Teaching strengthened my ability to explain ideas clearly. Artificial Intelligence, backend engineering, and Voice AI connected my curiosity with real-world impact.
 
-Financial limitations, academic interruptions, and repeated rejections did not stop my progress. They refined my direction. Today I am pursuing advanced studies while actively working with practical AI systems, bridging research and industry together.
+Financial limitations, academic interruptions, and repeated rejections did not stop my progress. They refined my direction. Today I am pursuing advanced studies while actively working with practical AI systems, spanning backend development, voice AI research, and teaching, bridging research and industry together.
 
-My goal is to earn a PhD, contribute meaningful research in AI and Data Science, continue teaching, and build intelligent solutions that improve real-world life.
+My goal is to earn a PhD, contribute meaningful research in AI and Data Science, continue teaching, and build intelligent solutions, including voice-enabled multi-agent systems, that improve real-world life.
 
 The path is still unfolding, and I am moving forward with clarity and purpose.

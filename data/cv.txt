@@ -1,28 +1,29 @@
 # Muneeb Ashraf
 
-📞 +92 300 6275648  
-📧 muneebashraf.edu@gmail.com  
-🔗 LinkedIn: https://www.linkedin.com/in/muneeb-ashraf-ai/  
-🌐 Portfolio: https://muneeb-ashraf.vercel.app/  
-📍 Aynaet Baag Scheme, Opposite Shalimar Garden, GT Road, Lahore, Pakistan  
+📞 +92 300 6275648
+📧 muneebashraf.edu@gmail.com
+🔗 LinkedIn: https://www.linkedin.com/in/muneeb-ashraf-ai/
+🌐 Portfolio: https://muneeb-ashraf.vercel.app/
+📍 Aynaet Baag Scheme, Opposite Shalimar Garden, GT Road, Lahore, Pakistan
 
 ---
 
 ## Professional Summary
 
-Aspiring Machine Learning professional with a strong background in Mathematics and hands-on experience in Python, data analysis, and machine learning models. Experienced in computer vision, classification, regression, and backend development. Exposure to OOP, CRUD APIs, and database integration through internships. Motivated to apply AI and data science skills to real-world problems and grow as a researcher and industry professional.
+Data Science and AI enthusiast with a strong foundation in Mathematics and hands-on experience in Python development, backend engineering, data analysis, and machine learning. Skilled in building applications using FastAPI, PostgreSQL, and MongoDB, with practical exposure to OOP, Git workflows, and collaborative software development. Passionate about combining research, technology, and education to create intelligent solutions for real-world challenges.
 
 ---
 
 ## Education
 
-### University of Engineering and Technology (UET), Lahore, Pakistan  
-**Master of Science (MS) – Data Science**  
+### University of Engineering and Technology (UET), Lahore, Pakistan
+**Master of Science (MS) – Data Science**
 *2025 – 2027*
+**CGPA:** 3.68 / 4.00
 
-### Government College University (GCU), Lahore, Pakistan  
-**Master of Science (MSc) – Mathematics**  
-*2020 – 2023*  
+### Government College University (GCU), Lahore, Pakistan
+**Master of Science (MSc) – Mathematics**
+*2020 – 2023*
 **CGPA:** 3.37 / 4.00
 
 ---
@@ -31,62 +32,64 @@ Aspiring Machine Learning professional with a strong background in Mathematics a
 
 ### Full-Time Positions
 
-**Hajveri Lyceum School, Lahore, Pakistan**  
-*Aug 2023 – May 2025*  
-- Taught Mathematics to grades 5–9  
-- Improved student engagement and performance  
-- Simplified complex mathematical concepts for young learners  
+**Viper Academy, Lahore, Punjab, Pakistan**
+*Python & AI Instructor — Jun 2026 – Jul 2026*
+- Delivered training in Python programming, data fundamentals, and introductory AI concepts
+- Guided PSDF-sponsored vocational learners through practical exercises covering Python fundamentals, data handling, problem-solving, and the foundations of machine learning and artificial intelligence
 
-**Shaudan Tech Group, Gujrat, Pakistan**  
-*Jun 2022 – Sep 2023*  
-- Worked remotely as a Data Analyst  
-- Delivered reports using data summaries and visualizations  
+**Remote AI Developer**
+*Dec 2025 – May 2026*
+- Built and tested AI voice bots using Python and PipeCat
+- Integrated LLMs with TTS and STT systems
+- Evaluated conversational performance and improved response quality through testing and analysis
 
-**Ali Science Academy, Gujrat, Pakistan**  
-*Jun 2018 – Mar 2020*  
-- Prepared students for board examinations  
-- Applied a tailored teaching approach to meet individual needs  
+**Meissasoft, Lahore, Punjab, Pakistan**
+*Python Developer — May 2025 – Dec 2025*
+- Developed backend applications using FastAPI, PostgreSQL, and MongoDB
+- Strengthened OOP and DSA skills through real-world projects (Chess Game Engine, Ride Sharing Simulation, CRUD-based Student Management System)
+- Collaborated with teams using Git and modern software development practices
+
+**Hajveri Lyceum School, Lahore, Punjab, Pakistan**
+*Mathematics Teacher — Aug 2023 – May 2025*
+- Taught grades 5–9
+- Promoted student engagement and simplified complex mathematical concepts through interactive teaching methods
+
+**Ali Science Academy, Gujrat, Punjab, Pakistan**
+*Mathematics Teacher — Jun 2018 – Mar 2020*
+- Prepared students for board examinations through personalized instruction and effective problem-solving techniques
 
 ### Internships
 
-**Meissasoft, Lahore, Pakistan**  
-*May 2025 – Present*  
-- Practiced OOP by building a Chess Game Engine and Ride Sharing Simulation  
-- Solved Data Structures and Algorithms problems on HackerRank  
-- Designed SQL databases  
-- Built a CRUD-based Student Management System using FastAPI and SQLAlchemy  
-
-**InsightSol Technologies, Lahore, Pakistan**  
-*Apr 2024 – May 2024*  
-- Developed machine learning models using Python libraries  
-- Gained exposure to ML workflows in a remote internship setting  
+**InsightSol Technologies, Lahore, Punjab, Pakistan**
+*Machine Learning Intern — Apr 2024 – May 2024*
+- Developed and evaluated machine learning models using Python libraries for data analysis, prediction, and classification tasks
 
 ---
 
 ## Courses, Specializations, and Training
 
-### National Vocational and Technical Training Commission (NAVTTC)  
-**Artificial Intelligence (Machine Learning & Deep Learning)**  
-*Jun 2023 – Dec 2023*  
-Institute: Minhaj University, Lahore, Pakistan  
+### National Vocational and Technical Training Commission (NAVTTC), Government of Pakistan
+**Artificial Intelligence (Machine Learning & Deep Learning)**
+*Jun 2023 – Dec 2023*
+Institute: Minhaj University, Lahore, Punjab, Pakistan
 
 ### Coursera Certifications
 
-- Data Science Math Skills – Duke University (Jul 2024)  
-- Introduction to Discrete Mathematics for Computer Science – UC San Diego (Dec 2023)  
-- Understanding Research Methods – University of London (Sep 2023)  
-- Introduction to Mathematical Thinking – Stanford University (Aug 2023)  
-- Algebra: Elementary to Advanced – Johns Hopkins University (Aug 2023)  
-- Expressway to Data Science: Essential Math – University of Colorado Boulder (Jul 2023)  
+- Data Science Math Skills – Duke University (01 Jul 2024)
+- Introduction to Discrete Mathematics for Computer Science – UC San Diego (05 Dec 2023)
+- Understanding Research Methods – University of London (12 Sep 2023)
+- Introduction to Mathematical Thinking – Stanford University (31 Aug 2023)
+- Algebra: Elementary to Advanced – Johns Hopkins University (31 Aug 2023)
+- Expressway to Data Science: Essential Math – University of Colorado Boulder (08 Jul 2023)
 
 ### IELTS
 
-- **Overall Band:** 7.0 (CEFR Level C1)  
-- Listening: 8.0  
-- Reading: 7.5  
-- Writing: 6.5  
-- Speaking: 6.0  
-- **Test Date:** 16 September 2024  
+- **Overall Band:** 7.0 (CEFR Level C1)
+- Listening: 8.0
+- Reading: 7.5
+- Writing: 6.5
+- Speaking: 6.0
+- **Test Date:** 16 September 2024
 
 ---
 
@@ -94,68 +97,66 @@ Institute: Minhaj University, Lahore, Pakistan
 
 ### Technical Skills
 
-- Python (NumPy, Pandas, Matplotlib, Seaborn, Scikit-learn, SQLAlchemy, Alembic, NLTK, TensorFlow/Keras) – Intermediate  
-- Machine Learning – Intermediate  
-- Deep Learning – Basic  
-- FastAPI (Uvicorn, Pydantic) – Intermediate  
-- SQL – Basic  
-- PostgreSQL – Basic  
-- MongoDB – Basic  
-- Git – Intermediate  
-- Object-Oriented Programming (OOP) – Intermediate  
-- Data Structures and Algorithms – Basic  
-- PipeCat – Intermediate  
-- LaTeX (Overleaf) – Basic  
-- Anaconda (Jupyter Notebook) – Intermediate  
-- Microsoft Office (Word, PowerPoint) – Intermediate  
-- Canva – Basic  
+- Python (NumPy, Pandas, Matplotlib, Seaborn, Scikit-learn, SQLAlchemy, Alembic, NLTK, TensorFlow/Keras) – Intermediate
+- Machine Learning – Intermediate
+- Deep Learning – Basic
+- Git – Intermediate
+- LaTeX (Overleaf) – Basic
+- SQL – Basic
+- FastAPI (Uvicorn, Pydantic) – Intermediate
+- Canva – Basic
+- PipeCat, LLM Integrations, STT, TTS – Intermediate
+- Object-Oriented Programming (OOP) – Intermediate
+- MongoDB – Basic
+- PostgreSQL – Basic
+- Data Structures and Algorithms (DSA) – Basic
+- Anaconda (Jupyter Notebook) – Intermediate
+- Microsoft Office (Word, PowerPoint) – Intermediate
 
 ### Interpersonal Skills
 
-- Communication – Good  
-- Problem Solving – Excellent  
-- Decision Making – Excellent  
-- Time Management – Excellent  
-- Adaptability – Excellent  
-- Creativity – Excellent  
-- Teamwork – Excellent  
-- Persuasion – Good  
-- Leadership – Good  
-- Emotional Intelligence – Excellent  
+- Communication – Good
+- Problem Solving – Excellent
+- Decision Making – Excellent
+- Time Management – Excellent
+- Adaptability – Excellent
+- Creativity – Excellent
+- Teamwork – Excellent
+- Persuasion – Good
+- Leadership – Good
+- Emotional Intelligence – Excellent
 
 ---
 
 ## Projects
 
-Projects completed during InsightSol Technologies internship and NAVTTC AI training.
+Projects completed during the InsightSol Technologies internship and the Artificial Intelligence (Machine Learning & Deep Learning) course at NAVTTC.
 
-- **House Price Prediction:** Compared 8+ regression models using Scikit-learn and Pandas  
-- **Heart Disease Prediction:** Trained classifiers including Logistic Regression and Random Forest, achieved 92% accuracy  
-- **Student Performance Analysis:** Multiple regression analysis with R² = 0.92  
-- **Brain Tumor Detection:** CNN-based medical image classification using TensorFlow/Keras  
-- **Credit Card Fraud Detection:** Anomaly detection using Logistic Regression  
-- **Breast Cancer Diagnostic:** SVM-based diagnostic classifier  
-- **Diabetes Classification:** Decision Tree prediction model  
-- **MNIST Digit Recognition:** ANN-based handwritten digit recognition  
-- **CIFAR Image Classification:** CNN models for CIFAR-10 and CIFAR-100 datasets  
-- **Career Chatbot:** API-integrated recommendation system  
-- **Chess Game Engine:** Modular OOP-based chess engine in Python  
-- **Ride Sharing Simulation:** Uber-like system using Driver, Rider, and Ride classes  
-- **Student Management System:** CRUD-based web application using FastAPI and SQLAlchemy  
+- **House Price Prediction:** Compared 8+ regression models (linear/tree-based) using Scikit-learn and Pandas
+- **Heart Disease Prediction:** Trained 4 classifiers (Logistic Regression, Random Forest), achieving 92% accuracy
+- **Student Performance Analysis:** Multiple regression analysis (R² = 0.92) with Pandas preprocessing
+- **Brain Tumor Detection:** CNN model for medical image classification (TensorFlow/Keras)
+- **Credit Card Fraud Detection:** Anomaly detection using Logistic Regression
+- **Diabetes Classification:** Decision Tree prediction model
+- **MNIST Digit Recognition:** ANN for the MNIST dataset
+- **CIFAR Image Classification:** CNN implementations for CIFAR-10/100 datasets
+- **Career Chatbot:** API-integrated recommendation system
+- **Chess Game Engine:** Modular OOP-based chess engine in Python
+- **Ride Sharing Simulation:** Uber-like system using OOP with Driver, Rider, and Ride classes
+- **Student Management System:** CRUD-based web app using FastAPI and SQLAlchemy
 
 ---
 
 ## Languages
 
-- **Urdu:** Listening (C2), Reading (C2), Speaking (C2), Writing (C1)  
-- **English:** Listening (C1), Reading (C1), Speaking (B2), Writing (B2)  
+- **Urdu:** Listening (C2), Reading (C2), Speaking (C2), Writing (C1)
+- **English:** Listening (C1), Reading (C1), Speaking (B2), Writing (B2)
 
 ---
 
 ## Extracurricular Activities
 
-- Member, **Chawla Mathematics Society**, Government College University (GCU)  
-  - Assisted in organizing mathematical seminars and workshops  
-
-- Member, **Blood Donor Society**, Government College University (GCU)  
-  - Volunteered in blood donation drives and awareness campaigns  
+- Member, **Chawla Mathematics Society**, Government College University (GCU)
+  - Participated in organizing mathematical seminars and workshops
+- Member, **Blood Donor Society**, Government College University (GCU)
+  - Volunteered in blood donation drives and awareness campaigns
