@@ -5,7 +5,7 @@ Interactive chatbot powered by Retrieval-Augmented Generation (RAG), built with 
 ## Features
 
 - 💬 Interactive chat interface
-- 🤖 AI-powered responses using Groq (Llama 3.1)
+- 🤖 AI-powered responses using Groq
 - 📚 Vector-based semantic search
 - 🚀 100% Serverless architecture
 - ⚡ Fast embedding with Xenova Transformers
@@ -14,7 +14,7 @@ Interactive chatbot powered by Retrieval-Augmented Generation (RAG), built with 
 ## Tech Stack
 
 - **Frontend**: Next.js 14, React 18
-- **AI/LLM**: Groq API (Llama 3.1-8B)
+- **AI/LLM**: Groq API (GPT OSS 20B)
 - **Embeddings**: Xenova Transformers (all-MiniLM-L6-v2)
 - **Vector Store**: JSON-based (serverless-friendly)
 - **Deployment**: Vercel
@@ -167,7 +167,7 @@ Edit `pages/api/chat.js`:
 
 ```javascript
 const completion = await groq.chat.completions.create({
-  model: "llama-3.1-8b-instant",  // Try: llama-3.3-70b-versatile
+  model: "openai/gpt-oss-20b",
   // ...
 });
 ```
