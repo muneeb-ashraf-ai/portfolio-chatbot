@@ -1,5 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
+
+const NeuralBrain = dynamic(() => import('../components/NeuralBrain'), { ssr: false });
 
 export default function Home() {
   const [messages, setMessages] = useState([]);
@@ -7,7 +10,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [sendPulse, setSendPulse] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
-  const [latestFollowUps, setLatestFollowUps] = useState([]);
   const messagesEndRef = useRef(null);
   const canvasRef = useRef(null);
   const starsRef = useRef([]);
@@ -171,7 +173,6 @@ export default function Home() {
           time: new Date(),
           followUps: data.followUps || [],
         }]);
-        setLatestFollowUps(data.followUps || []);
       } else {
         setMessages(prev => [...prev, {
           role: 'assistant',
@@ -199,7 +200,7 @@ export default function Home() {
 
   const clearChat = () => {
     setMessages([]);
-    setLatestFollowUps([]);
+    setInput('');
   };
 
   return (
@@ -211,7 +212,6 @@ export default function Home() {
         <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
       </Head>
 
-      {/* AnimatedBackground — fixed blobs layer, matches AnimatedBackground.tsx */}
       <div className="animBg" aria-hidden="true">
         <div className="animBase" />
         <div className="animBlob animBlobOne" />
@@ -225,7 +225,9 @@ export default function Home() {
         <header className="siteHeader">
           <div className="siteHeaderInner">
             <div className="siteLogo">
-              <span className="siteLogoMark">MA</span>
+              <span className="siteLogoMark">
+                <img src="/assets/favicon.svg" alt="" />
+              </span>
               <span className="siteLogoText">Muneeb Ashraf</span>
             </div>
             <nav className="siteNav">
@@ -258,30 +260,21 @@ export default function Home() {
         </header>
 
         {/* ── Main layout ── */}
-        <div className={`appShell${latestFollowUps.length > 0 ? ' appShellWide' : ''}`}>
+        <div className="appShell">
           <canvas ref={canvasRef} className="particleCanvas" />
 
-          {/* ── Suggestions Sidebar ── */}
-          <aside className="suggestionsPanel">
-            <div className="suggestionsPanelHeader">
-              <span className="suggestionsPanelIcon">✦</span>
-              <span className="suggestionsPanelTitle">Quick Questions</span>
+          <section className="neuralStage">
+            <div className="brainViewport">
+              <NeuralBrain active={loading} />
             </div>
-            <div className="suggestionsList">
-              <button onClick={() => sendText("Who is Muneeb?")} className="sideSuggestionBtn">🙋 Who is Muneeb?</button>
-              <button onClick={() => sendText("What are Muneeb's skills?")} className="sideSuggestionBtn">⚡ What are Muneeb's skills?</button>
-              <button onClick={() => sendText("Who are you?")} className="sideSuggestionBtn">🤖 Who are you?</button>
-              <button onClick={() => sendText("What projects has Muneeb worked on?")} className="sideSuggestionBtn">🚀 What projects has Muneeb worked on?</button>
-              <button onClick={() => sendText("What is Muneeb's educational background?")} className="sideSuggestionBtn">🎓 Educational background?</button>
-              <button onClick={() => sendText("What work experience does Muneeb have?")} className="sideSuggestionBtn">💼 Work experience?</button>
-              <button onClick={() => sendText("How can I contact Muneeb?")} className="sideSuggestionBtn">📬 How to contact Muneeb?</button>
-            </div>
-          </aside>
+          </section>
 
           <section className="chatPanel">
           <header className="chatHeader">
             <div>
-              <h2 className="chatTitle">Alpha — Muneeb's AI Assistant</h2>
+              <h2 className="chatTitle">
+                <span>Alpha — Muneeb's AI Assistant</span>
+              </h2>
               <p className="chatSubtitle">Ask me anything about Muneeb's background, skills &amp; projects</p>
             </div>
             <div className="headerRight">
@@ -300,8 +293,16 @@ export default function Home() {
           <main className="messagesContainer">
             {messages.length === 0 ? (
               <div className="emptyState">
-                <h3 className="emptyTitle">Hi! I'm Alpha 👋</h3>
-                <p className="emptyText">Muneeb's personal AI assistant. Select a question from the panel on the left, or type your own below.</p>
+                <h3 className="emptyTitle">Welcome! I'm Alpha</h3>
+                <p className="emptyText">Explore Muneeb's work, projects, and experience through conversation.</p>
+                <div className="emptyQuickQuestions">
+                  <span className="quickQuestionsLabel">Try a quick question</span>
+                  <div className="quickQuestionsList">
+                    <button onClick={() => sendText("Who is Muneeb?")} className="quickQuestionBtn">Who is Muneeb?</button>
+                    <button onClick={() => sendText("What are Muneeb's skills?")} className="quickQuestionBtn">What are Muneeb's skills?</button>
+                    <button onClick={() => sendText("What projects has Muneeb worked on?")} className="quickQuestionBtn">What projects has Muneeb worked on?</button>
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="messages">
@@ -315,6 +316,18 @@ export default function Home() {
                         <span>{msg.time ? msg.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}</span>
                       </div>
                       <div className="messageContent">{msg.content}</div>
+                      {msg.role === 'assistant' && msg.followUps && msg.followUps.length > 0 && (
+                        <div className="followUpsWrap">
+                          <span className="followUpsLabel">You might also ask</span>
+                          <div className="followUpsList">
+                            {msg.followUps.slice(0, 3).map((question, questionIndex) => (
+                              <button key={questionIndex} className="followUpBtn" onClick={() => sendText(question)}>
+                                {question}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                       {msg.role === 'assistant' && (
                         <div className="contactBar">
                           <span className="contactBarText">For quick &amp; more accurate answers,</span>
@@ -361,20 +374,6 @@ export default function Home() {
           </form>
         </section>
 
-          {/* ── Follow-ups Right Panel ── */}
-          {latestFollowUps.length > 0 && (
-            <aside className="followUpsPanel">
-              <div className="followUpsPanelHeader">
-                <span className="followUpsPanelIcon">✧</span>
-                <span className="followUpsPanelTitle">You might want to ask</span>
-              </div>
-              <div className="followUpsPanelList">
-                {latestFollowUps.map((q, qi) => (
-                  <button key={qi} className="followUpSideBtn" onClick={() => sendText(q)}>{q}</button>
-                ))}
-              </div>
-            </aside>
-          )}
       </div>
 
         {/* ── Global Footer ── */}
@@ -509,14 +508,21 @@ export default function Home() {
         .siteLogoMark {
           width: 34px;
           height: 34px;
-          border-radius: 10px;
-          background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+          border-radius: 0;
+          background: transparent;
           display: grid;
           place-items: center;
           font-size: 0.78rem;
           font-weight: 700;
           color: #fff;
           flex-shrink: 0;
+        }
+
+        .siteLogoMark img {
+          display: block;
+          width: 30px;
+          height: 30px;
+          object-fit: contain;
         }
 
         .siteLogoText {
@@ -1093,6 +1099,65 @@ export default function Home() {
           line-height: 1.55;
         }
 
+        .emptyQuickQuestions {
+          width: min(100%, 440px);
+          margin-top: 1.4rem;
+        }
+
+        .quickQuestionsLabel,
+        .followUpsLabel {
+          display: block;
+          margin-bottom: 0.55rem;
+          color: rgba(216, 180, 254, 0.7);
+          font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+          font-size: 0.65rem;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+        }
+
+        .quickQuestionsList,
+        .followUpsList {
+          display: flex;
+          justify-content: center;
+          gap: 0.45rem;
+          flex-wrap: wrap;
+        }
+
+        .quickQuestionBtn,
+        .followUpBtn {
+          border: 1px solid rgba(192, 132, 252, 0.25);
+          background: rgba(46, 16, 72, 0.55);
+          color: #eadcff;
+          border-radius: 999px;
+          padding: 0.5rem 0.7rem;
+          font-size: 0.72rem;
+          line-height: 1.25;
+          cursor: pointer;
+          transition: background var(--transition-base), border-color var(--transition-base), transform var(--transition-base);
+        }
+
+        .quickQuestionBtn:hover,
+        .followUpBtn:hover {
+          border-color: #e879f9;
+          background: rgba(126, 34, 206, 0.42);
+          transform: translateY(-1px);
+        }
+
+        .followUpsWrap {
+          margin-top: 0.8rem;
+          padding-top: 0.7rem;
+          border-top: 1px solid rgba(192, 132, 252, 0.13);
+        }
+
+        .followUpsWrap .followUpsLabel {
+          margin-bottom: 0.45rem;
+          font-size: 0.58rem;
+        }
+
+        .followUpsWrap .followUpsList {
+          justify-content: flex-start;
+        }
+
         /* ── Follow-ups Right Panel ── */
         .followUpsPanel {
           border-left: 1px solid rgba(255, 255, 255, 0.07);
@@ -1452,12 +1517,209 @@ export default function Home() {
           }
         }
 
+        .appShell {
+          grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1.08fr);
+          gap: 0;
+          padding: 1.25rem clamp(1rem, 3vw, 3rem) 1.5rem;
+          box-sizing: border-box;
+        }
+
+        .appShellWide {
+          grid-template-columns: minmax(0, 0.88fr) minmax(420px, 1.02fr) 210px;
+        }
+
+        .neuralStage {
+          min-width: 0;
+          min-height: 0;
+          box-sizing: border-box;
+          display: block;
+          padding: 0;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .neuralStage::before {
+          content: '';
+          position: absolute;
+          inset: 12% 8% 14%;
+          border: 1px solid rgba(192, 132, 252, 0.1);
+          border-radius: 50%;
+          transform: rotate(-12deg);
+          animation: neuralOrbit 16s linear infinite;
+          pointer-events: none;
+        }
+
+        @keyframes neuralOrbit {
+          from { transform: rotate(-12deg) scale(0.78); opacity: 0.45; }
+          50% { transform: rotate(168deg) scale(1.16); opacity: 0.95; }
+          to { transform: rotate(348deg) scale(0.78); opacity: 0.45; }
+        }
+
+        .siteHeader {
+          position: relative;
+          display: block;
+          min-height: 57px;
+          box-sizing: border-box;
+          background: rgba(11, 8, 14, 0.9);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+        }
+
+        .brainIntro {
+          position: absolute;
+          top: clamp(1rem, 4vw, 2.5rem);
+          left: clamp(1rem, 4vw, 2.5rem);
+          z-index: 2;
+          display: flex;
+          flex-direction: column;
+          gap: 0.3rem;
+          max-width: 16rem;
+          pointer-events: none;
+        }
+
+        .brainIntroKicker {
+          color: rgba(216, 180, 254, 0.72);
+          font-family: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+          font-size: 0.62rem;
+          letter-spacing: 0.12em;
+        }
+
+        .brainIntro strong {
+          color: rgba(255, 255, 255, 0.92);
+          font-size: clamp(1rem, 1.6vw, 1.25rem);
+          font-weight: 600;
+        }
+
+        .brainIntro > span:last-child {
+          color: rgba(255, 255, 255, 0.48);
+          font-size: 0.72rem;
+          line-height: 1.45;
+        }
+
+        .brainViewport {
+          position: relative;
+          z-index: 1;
+        }
+
+        .brainViewport {
+          height: 100%;
+          min-height: 320px;
+          cursor: grab;
+          display: grid;
+          place-items: center;
+        }
+
+        .brainViewport:active { cursor: grabbing; }
+
+        :global(.neuralBrainCanvas) {
+          width: 100%;
+          height: 100%;
+          min-height: 0;
+          touch-action: none;
+        }
+
+        .chatPanel {
+          min-height: 0;
+          height: 100%;
+          box-sizing: border-box;
+          max-width: none;
+          border: 1px solid rgba(192, 132, 252, 0.23);
+          border-radius: 18px;
+          background: rgba(12, 7, 22, 0.58);
+          backdrop-filter: blur(22px);
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.32), inset 0 0 32px rgba(168, 85, 247, 0.05);
+          overflow: hidden;
+        }
+
+        .chatHeader {
+          padding: 1.1rem 1.2rem;
+          border-bottom: 1px solid rgba(192, 132, 252, 0.14);
+          background: rgba(88, 28, 135, 0.12);
+        }
+
+        .chatTitle {
+          font-size: 0.95rem;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+
+        .chatSubtitle { font-size: 0.75rem; }
+
+        .messagesContainer { padding: 1.1rem; }
+
+        .message {
+          border-radius: 14px;
+          padding: 0.85rem 0.95rem;
+          font-size: 0.88rem;
+        }
+
+        .userMessage {
+          background: linear-gradient(135deg, rgba(126, 34, 206, 0.72), rgba(190, 24, 93, 0.48));
+          border: 1px solid rgba(244, 114, 182, 0.3);
+        }
+
+        .assistantMessage {
+          background: rgba(18, 8, 32, 0.7);
+          border-color: rgba(192, 132, 252, 0.2);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24), inset 0 0 18px rgba(147, 51, 234, 0.04);
+        }
+
+        .composer {
+          padding: 0.85rem;
+          border-top-color: rgba(192, 132, 252, 0.14);
+          background: rgba(10, 5, 20, 0.62);
+        }
+
+        .input {
+          background: rgba(28, 12, 49, 0.72);
+          border-color: rgba(192, 132, 252, 0.25);
+          font-size: 0.85rem;
+        }
+
+        .input:focus {
+          border-color: #e879f9;
+          box-shadow: 0 0 0 3px rgba(217, 70, 239, 0.15), 0 0 22px rgba(217, 70, 239, 0.14);
+        }
+
+        .sendBtn {
+          min-width: 68px;
+          background: linear-gradient(135deg, #9333ea, #d946ef);
+          box-shadow: 0 8px 24px rgba(147, 51, 234, 0.3);
+        }
+
         @media (max-width: 1024px) {
           .appShell {
             grid-template-columns: 200px 1fr;
           }
           .appShellWide {
             grid-template-columns: 200px 1fr 200px;
+          }
+        }
+
+        @media (max-width: 900px) {
+          .appShell,
+          .appShellWide {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: minmax(300px, 46vh) minmax(420px, 1fr);
+            overflow-y: auto;
+            padding: 0.75rem;
+          }
+
+          .neuralStage {
+            padding: 0;
+          }
+
+          .brainViewport {
+            min-height: 0;
+          }
+
+          .brainIntro {
+            top: 1rem;
+            left: 1rem;
+          }
+
+          .chatPanel {
+            min-height: 420px;
           }
         }
 
@@ -1526,9 +1788,32 @@ export default function Home() {
           /* ── Shell becomes flex column ── */
           .appShell,
           .appShellWide {
-            display: flex;
-            flex-direction: column;
-            grid-template-columns: unset;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: clamp(250px, 36vh, 340px) minmax(0, 1fr);
+            height: 100%;
+            min-height: 0;
+            padding: 0.5rem;
+            overflow: hidden;
+            box-sizing: border-box;
+          }
+
+          .neuralStage {
+            min-height: 0;
+            height: 100%;
+            overflow: hidden;
+          }
+
+          .brainViewport {
+            min-height: 0;
+            height: 100%;
+          }
+
+          .chatPanel {
+            order: 0;
+            height: 100%;
+            min-height: 0;
+            overflow: hidden;
           }
 
           /* ── Header: more compact ── */
@@ -1541,6 +1826,7 @@ export default function Home() {
           .siteHeader {
             flex-shrink: 0;
             z-index: 10;
+            min-height: 48px;
           }
 
           .siteLogo {
@@ -1592,7 +1878,7 @@ export default function Home() {
             flex-shrink: 0;
           }
 
-          /* ── Left panel → horizontal strip at bottom ── */
+          /* Legacy sidebar is not rendered in the current chatbot layout. */
           .suggestionsPanel {
             display: flex !important;
             flex-direction: row;
@@ -1660,16 +1946,6 @@ export default function Home() {
             }
           }
 
-          /* ── Chat panel takes full remaining space ── */
-          .chatPanel {
-            order: 1;
-            flex: 1;
-            min-height: 0;
-            max-width: 100%;
-            margin: 0;
-            width: 100%;
-          }
-
           .chatHeader {
             padding: 0.75rem;
             flex-direction: column;
@@ -1704,6 +1980,7 @@ export default function Home() {
           .messagesContainer {
             padding: 0.9rem 0.75rem;
             overflow-y: auto;
+            min-height: 0;
             -webkit-overflow-scrolling: touch;
           }
 
