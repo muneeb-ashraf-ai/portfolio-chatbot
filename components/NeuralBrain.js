@@ -36,9 +36,9 @@ export default function NeuralBrain({ active = false }) {
     controls.dampingFactor = 0.05;
     controls.enablePan = false;
     controls.rotateSpeed = 0.85;
-    controls.zoomSpeed = 0.9;
-    controls.minDistance = 7;
-    controls.maxDistance = 18;
+    controls.zoomSpeed = 1.15;
+    controls.minDistance = 5.5;
+    controls.maxDistance = 24;
 
     const brain = new THREE.Group();
     const pulses = new THREE.Group();
@@ -164,6 +164,14 @@ export default function NeuralBrain({ active = false }) {
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height, false);
+      const isMobile = window.matchMedia('(max-width: 640px)').matches;
+      const mobileOffset = isMobile ? -1.25 : 0;
+      brain.position.x = mobileOffset;
+      orbitals.position.x = mobileOffset;
+      brain.scale.setScalar(isMobile ? 0.92 : 1.18);
+      orbitals.scale.setScalar(isMobile ? 0.9 : 1);
+      controls.target.set(0, 0, 0);
+      controls.update();
     };
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(mount);

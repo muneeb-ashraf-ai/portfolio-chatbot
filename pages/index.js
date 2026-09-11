@@ -10,6 +10,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [sendPulse, setSendPulse] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [isMobileChatOpen, setIsMobileChatOpen] = useState(false);
   const messagesEndRef = useRef(null);
   const canvasRef = useRef(null);
   const starsRef = useRef([]);
@@ -203,6 +204,15 @@ export default function Home() {
     setInput('');
   };
 
+  useEffect(() => {
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setIsMobileChatOpen(false);
+    };
+
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, []);
+
   return (
     <>
       <Head>
@@ -269,8 +279,18 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="chatPanel">
+          <section id="alpha-chat" className={`chatPanel ${isMobileChatOpen ? 'mobileChatOpen' : ''}`}>
           <header className="chatHeader">
+            <button
+              type="button"
+              className="mobileChatClose"
+              onClick={() => setIsMobileChatOpen(false)}
+              aria-label="Collapse chat"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
             <div>
               <h2 className="chatTitle">
                 <span>Alpha — Muneeb's AI Assistant</span>
@@ -377,6 +397,20 @@ export default function Home() {
       </div>
 
         {/* ── Global Footer ── */}
+        <button
+          type="button"
+          className={`mobileChatToggle ${isMobileChatOpen ? 'mobileChatToggleHidden' : ''}`}
+          onClick={() => setIsMobileChatOpen(true)}
+          aria-controls="alpha-chat"
+          aria-expanded={isMobileChatOpen}
+        >
+          <span className="mobileChatToggleHandle" aria-hidden="true" />
+          <span>Chat with Alpha</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="m6 15 6-6 6 6" />
+          </svg>
+        </button>
+
         <footer className="siteFooter">
           <div className="siteFooterInner">
             <span className="footerLeft">© 2025 Muneeb Ashraf · All rights reserved</span>
@@ -2142,6 +2176,184 @@ export default function Home() {
 
           .siteLogoText {
             display: none;
+          }
+        }
+
+        /* Mobile Alpha experience: the brain owns the screen until chat is opened. */
+        .mobileChatToggle,
+        .mobileChatClose {
+          display: none;
+        }
+
+        @media (max-width: 640px) {
+          .pageWrap {
+            height: 100dvh;
+            min-height: 100dvh;
+          }
+
+          .siteHeader,
+          .siteFooter {
+            display: none;
+          }
+
+          .appShell,
+          .appShellWide {
+            display: block;
+            width: 100vw;
+            height: 100dvh;
+            min-height: 100dvh;
+            padding: 0;
+            overflow: hidden;
+          }
+
+          .neuralStage {
+            position: absolute;
+            inset: 0;
+            width: 100vw;
+            height: 100dvh;
+            min-height: 0;
+          }
+
+          .brainViewport {
+            width: 100%;
+            height: 100%;
+          }
+
+          .chatPanel {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100dvh;
+            min-height: 0;
+            margin: 0;
+            border: 0;
+            border-radius: 0;
+            background: rgba(11, 8, 14, 0.97);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(100%);
+            transition: transform 300ms ease-out, opacity 180ms ease-out, visibility 0s linear 300ms;
+            will-change: transform;
+            z-index: 20;
+          }
+
+          .chatPanel.mobileChatOpen {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+            transition: transform 300ms ease-out, opacity 180ms ease-out;
+          }
+
+          .mobileChatToggle {
+            position: fixed;
+            left: 50%;
+            bottom: calc(1rem + env(safe-area-inset-bottom));
+            z-index: 12;
+            display: inline-grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 0.55rem;
+            min-height: 48px;
+            padding: 0.55rem 1rem;
+            border: 1px solid rgba(216, 180, 254, 0.45);
+            border-radius: 999px;
+            background: rgba(20, 9, 37, 0.86);
+            color: #fff;
+            font: inherit;
+            font-size: 0.88rem;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 24px rgba(192, 132, 252, 0.22);
+            backdrop-filter: blur(16px);
+            cursor: pointer;
+            transform: translateX(-50%);
+            transition: transform 180ms ease, opacity 180ms ease, box-shadow 180ms ease;
+          }
+
+          .mobileChatToggle:hover,
+          .mobileChatToggle:active {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 12px 34px rgba(0, 0, 0, 0.46), 0 0 30px rgba(216, 180, 254, 0.34);
+          }
+
+          .mobileChatToggle:focus-visible,
+          .mobileChatClose:focus-visible {
+            outline: 3px solid rgba(232, 121, 249, 0.75);
+            outline-offset: 3px;
+          }
+
+          .mobileChatToggleHidden {
+            opacity: 0;
+            pointer-events: none;
+          }
+
+          .mobileChatToggleHandle {
+            display: block;
+            width: 18px;
+            height: 3px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.72);
+          }
+
+          .mobileChatClose {
+            display: grid;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            place-items: center;
+            border: 1px solid rgba(216, 180, 254, 0.22);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            cursor: pointer;
+          }
+
+          .chatHeader {
+            display: grid;
+            grid-template-columns: 44px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 0.65rem;
+            padding: calc(0.7rem + env(safe-area-inset-top)) 0.75rem 0.7rem;
+          }
+
+          .chatTitle {
+            font-size: 0.83rem;
+            line-height: 1.25;
+          }
+
+          .chatSubtitle {
+            margin-top: 0.15rem;
+            font-size: 0.69rem;
+            line-height: 1.35;
+          }
+
+          .headerRight {
+            align-self: center;
+            gap: 0.4rem;
+          }
+
+          .statusWrap {
+            font-size: 0.7rem;
+          }
+
+          .clearBtn {
+            min-height: 36px;
+          }
+
+          .messagesContainer {
+            overscroll-behavior: contain;
+          }
+
+          .composer {
+            padding-bottom: calc(0.8rem + env(safe-area-inset-bottom));
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .chatPanel,
+          .mobileChatToggle {
+            transition: none;
           }
         }
       `}</style>
