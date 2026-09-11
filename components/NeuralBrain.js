@@ -27,6 +27,7 @@ export default function NeuralBrain({ active = false }) {
     // the desktop device emulator. Keep the scene light enough to avoid a lost
     // WebGL context, while preserving the same visual treatment.
     const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+    const useMobileConnections = isTouchDevice && window.matchMedia('(max-width: 640px)').matches;
     const quality = isTouchDevice
       ? {
         nodeCount: 480,
@@ -144,20 +145,79 @@ export default function NeuralBrain({ active = false }) {
 
     const linePositions = [];
     const lineColors = [];
-    for (let index = 0; index < nodes.length; index += 2) {
-      for (let next = index + 1; next < nodes.length; next += 3) {
-        const distance = nodes[index].distanceTo(nodes[next]);
-        if (distance < 1.38) {
-          linePositions.push(nodes[index].x, nodes[index].y, nodes[index].z, nodes[next].x, nodes[next].y, nodes[next].z);
-          const color = Math.random() > 0.78 ? fuchsia : purple;
-          lineColors.push(color.r, color.g, color.b, color.r, color.g, color.b);
+    const pulseConnections = [];
+
+    if (useMobileConnections) {
+      const connectedPairs = new Set();
+      const connectionsPerNode = 3;
+      const maxConnectionDistanceSquared = 1.65 ** 2;
+
+      // On phones, build the network from each node's closest neighbours. This
+      // keeps the lower particle count visibly connected without adding desktop
+      // rendering work or changing its established visual behaviour.
+      for (let index = 0; index < nodes.length; index += 1) {
+        const node = nodes[index];
+        if (!node) continue;
+        const nearest = [];
+
+        for (let candidateIndex = 0; candidateIndex < nodes.length; candidateIndex += 1) {
+          const candidate = nodes[candidateIndex];
+          if (!candidate || candidateIndex === index) continue;
+
+          const distanceSquared = node.distanceToSquared(candidate);
+          if (distanceSquared > maxConnectionDistanceSquared) continue;
+
+          if (nearest.length < connectionsPerNode) {
+            nearest.push({ candidate, candidateIndex, distanceSquared });
+            nearest.sort((a, b) => b.distanceSquared - a.distanceSquared);
+          } else if (distanceSquared < nearest[0].distanceSquared) {
+            nearest[0] = { candidate, candidateIndex, distanceSquared };
+            nearest.sort((a, b) => b.distanceSquared - a.distanceSquared);
+          }
         }
+
+        nearest.forEach(({ candidate, candidateIndex }) => {
+          const pairStart = Math.min(index, candidateIndex);
+          const pairEnd = Math.max(index, candidateIndex);
+          const pairKey = `${pairStart}:${pairEnd}`;
+          if (connectedPairs.has(pairKey)) return;
+
+          connectedPairs.add(pairKey);
+          linePositions.push(node.x, node.y, node.z, candidate.x, candidate.y, candidate.z);
+          const color = Math.random() > 0.76 ? fuchsia : purple;
+          lineColors.push(color.r, color.g, color.b, color.r, color.g, color.b);
+          pulseConnections.push({ start: node, end: candidate });
+        });
+      }
+    } else {
+      // Preserve the original laptop/desktop connection pattern and pulse paths.
+      for (let index = 0; index < nodes.length; index += 2) {
+        const start = nodes[index];
+        if (!start) continue;
+
+        for (let next = index + 1; next < nodes.length; next += 3) {
+          const end = nodes[next];
+          if (!end) continue;
+
+          const distance = start.distanceTo(end);
+          if (distance < 1.38) {
+            linePositions.push(start.x, start.y, start.z, end.x, end.y, end.z);
+            const color = Math.random() > 0.78 ? fuchsia : purple;
+            lineColors.push(color.r, color.g, color.b, color.r, color.g, color.b);
+          }
+        }
+      }
+
+      for (let index = 0; index < nodes.length - 12; index += 18) {
+        const start = nodes[index];
+        const end = nodes[index + 3];
+        if (start && end) pulseConnections.push({ start, end });
       }
     }
     const linesGeometry = new THREE.BufferGeometry();
     linesGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
     linesGeometry.setAttribute('color', new THREE.Float32BufferAttribute(lineColors, 3));
-    const linesMaterial = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending, depthWrite: false });
+    const linesMaterial = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: useMobileConnections ? 0.4 : 0.25, blending: THREE.AdditiveBlending, depthWrite: false });
     brain.add(new THREE.LineSegments(linesGeometry, linesMaterial));
 
     const core = new THREE.Mesh(
@@ -177,10 +237,6 @@ export default function NeuralBrain({ active = false }) {
     orbitalTwo.rotation.x = Math.PI / 3;
     orbitals.add(orbitalOne, orbitalTwo);
 
-    const pulseConnections = [];
-    for (let index = 0; index < nodes.length - 12; index += 18) {
-      pulseConnections.push({ start: nodes[index], end: nodes[index + 3] });
-    }
     const activePulses = [];
     const pulseGeometry = new THREE.SphereGeometry(0.07, quality.pulseSegments, quality.pulseSegments);
     const idlePulseMaterial = new THREE.MeshBasicMaterial({ color: COLORS.cyan, blending: THREE.AdditiveBlending });
@@ -194,6 +250,7 @@ export default function NeuralBrain({ active = false }) {
     const spawnPulse = () => {
       if (!pulseConnections.length || activePulses.length >= quality.maxPulses) return;
       const connection = pulseConnections[Math.floor(Math.random() * pulseConnections.length)];
+      if (!connection?.start || !connection?.end) return;
       const mesh = new THREE.Mesh(
         pulseGeometry,
         activeRef.current ? engagedPulseMaterial : idlePulseMaterial,
@@ -267,6 +324,11 @@ export default function NeuralBrain({ active = false }) {
 
       for (let index = activePulses.length - 1; index >= 0; index -= 1) {
         const pulse = activePulses[index];
+        if (!pulse.start || !pulse.end) {
+          pulses.remove(pulse.mesh);
+          activePulses.splice(index, 1);
+          continue;
+        }
         pulse.progress += pulse.speed * delta * (engaged ? 1.5 : 1);
         if (pulse.progress >= 1) {
           pulses.remove(pulse.mesh);

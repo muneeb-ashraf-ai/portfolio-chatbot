@@ -2203,9 +2203,16 @@ export default function Home() {
           .pageWrap {
             height: 100dvh;
             min-height: 100dvh;
+            grid-template-rows: auto minmax(0, 1fr);
           }
 
-          .siteHeader,
+          .siteHeader {
+            display: block;
+            position: relative;
+            min-height: 48px;
+            z-index: 30;
+          }
+
           .siteFooter {
             display: none;
           }
@@ -2213,9 +2220,9 @@ export default function Home() {
           .appShell,
           .appShellWide {
             display: block;
-            width: 100vw;
-            height: 100dvh;
-            min-height: 100dvh;
+            width: 100%;
+            height: 100%;
+            min-height: 0;
             padding: 0;
             overflow: hidden;
           }
@@ -2223,8 +2230,8 @@ export default function Home() {
           .neuralStage {
             position: absolute;
             inset: 0;
-            width: 100vw;
-            height: 100dvh;
+            width: 100%;
+            height: 100%;
             min-height: 0;
             isolation: isolate;
           }
@@ -2236,10 +2243,10 @@ export default function Home() {
           }
 
           .chatPanel {
-            position: fixed;
+            position: absolute;
             inset: 0;
-            width: 100vw;
-            height: 100dvh;
+            width: 100%;
+            height: 100%;
             min-height: 0;
             margin: 0;
             border: 0;
