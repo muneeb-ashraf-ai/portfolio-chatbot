@@ -8,8 +8,7 @@ const COLORS = {
   purple: 0x9333ea,
   glow: 0xc084fc,
   fuchsia: 0xd946ef,
-  cyan: 0x06b6d4,
-  amber: 0xf59e0b,
+  cyan: 0xe6e6fa
 };
 
 export default function NeuralBrain({ active = false }) {
@@ -108,10 +107,10 @@ export default function NeuralBrain({ active = false }) {
 
     const linePositions = [];
     const lineColors = [];
-    for (let index = 0; index < nodes.length; index += 3) {
-      for (let next = index + 1; next < Math.min(index + 12, nodes.length); next += 2) {
+    for (let index = 0; index < nodes.length; index += 2) {
+      for (let next = index + 1; next < nodes.length; next += 3) {
         const distance = nodes[index].distanceTo(nodes[next]);
-        if (distance < 1.35) {
+        if (distance < 1.38) {
           linePositions.push(nodes[index].x, nodes[index].y, nodes[index].z, nodes[next].x, nodes[next].y, nodes[next].z);
           const color = Math.random() > 0.78 ? fuchsia : purple;
           lineColors.push(color.r, color.g, color.b, color.r, color.g, color.b);
@@ -151,12 +150,12 @@ export default function NeuralBrain({ active = false }) {
     let lastTime = 0;
 
     const spawnPulse = () => {
-      if (!pulseConnections.length || activePulses.length > 26) return;
+      if (!pulseConnections.length || activePulses.length > 60) return;
       const connection = pulseConnections[Math.floor(Math.random() * pulseConnections.length)];
       const mesh = new THREE.Mesh(new THREE.SphereGeometry(0.07, 8, 8), new THREE.MeshBasicMaterial({ color: activeRef.current ? COLORS.fuchsia : COLORS.cyan, blending: THREE.AdditiveBlending }));
       mesh.position.copy(connection.start);
       pulses.add(mesh);
-      activePulses.push({ mesh, ...connection, progress: 0, speed: 0.018 + Math.random() * 0.025 });
+      activePulses.push({ mesh, ...connection, progress: 0, speed: 0.004 + Math.random() * 0.003 });
     };
 
     const resize = () => {
@@ -185,7 +184,11 @@ export default function NeuralBrain({ active = false }) {
       const glow = engaged ? 1.45 : 1;
       core.scale.setScalar(1 + Math.sin(time * 0.004) * 0.08 * glow);
       particleMaterial.opacity = 0.72 + (engaged ? 0.2 : 0) + Math.sin(time * 0.003) * 0.08;
-      if (!reducedMotion && Math.random() < (engaged ? 0.58 : 0.14)) spawnPulse();
+      if (!reducedMotion) {
+        if (Math.random() > 0.35) spawnPulse();
+        if (Math.random() > 0.55) spawnPulse();
+        if (Math.random() > 0.7) spawnPulse();
+      }
 
       for (let index = activePulses.length - 1; index >= 0; index -= 1) {
         const pulse = activePulses[index];
