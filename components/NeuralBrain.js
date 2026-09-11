@@ -23,13 +23,50 @@ export default function NeuralBrain({ active = false }) {
     const mount = mountRef.current;
     if (!mount) return undefined;
 
+    // A real phone has a much narrower viewport and a smaller GPU budget than
+    // the desktop device emulator. Keep the scene light enough to avoid a lost
+    // WebGL context, while preserving the same visual treatment.
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+    const quality = isTouchDevice
+      ? {
+        nodeCount: 480,
+        maxPulses: 18,
+        pixelRatio: 1.25,
+        pulseInterval: 0.26,
+        pulseSegments: 6,
+      }
+      : {
+        nodeCount: 1100,
+        maxPulses: 60,
+        pixelRatio: 1.75,
+        pulseInterval: 0.12,
+        pulseSegments: 8,
+      };
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
     camera.position.set(0, 0, 10);
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: !isTouchDevice,
+        powerPreference: isTouchDevice ? 'default' : 'high-performance',
+        precision: isTouchDevice ? 'mediump' : 'highp',
+      });
+    } catch (error) {
+      // Leave the decorative CSS orbit visible on browsers where WebGL is
+      // unavailable instead of allowing the component to break the page.
+      mount.dataset.webglUnavailable = 'true';
+      return undefined;
+    }
+
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, quality.pixelRatio));
     renderer.setClearColor(0x000000, 0);
+    renderer.domElement.style.display = 'block';
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
     mount.appendChild(renderer.domElement);
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -37,7 +74,7 @@ export default function NeuralBrain({ active = false }) {
     controls.enablePan = false;
     controls.rotateSpeed = 0.85;
     controls.zoomSpeed = 1.15;
-    controls.minDistance = 5.5;
+    controls.minDistance = isTouchDevice ? 11.5 : 5.5;
     controls.maxDistance = 24;
 
     const brain = new THREE.Group();
@@ -47,7 +84,7 @@ export default function NeuralBrain({ active = false }) {
     brain.add(pulses);
     scene.add(brain, orbitals);
 
-    const nodeCount = 1100;
+    const nodeCount = quality.nodeCount;
     const positions = new Float32Array(nodeCount * 3);
     const colors = new Float32Array(nodeCount * 3);
     const sizes = new Float32Array(nodeCount);
@@ -94,7 +131,7 @@ export default function NeuralBrain({ active = false }) {
     particleGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
     const particleTexture = new THREE.CanvasTexture(createGlowTexture());
     const particleMaterial = new THREE.PointsMaterial({
-      size: 0.38,
+      size: isTouchDevice ? 0.44 : 0.38,
       vertexColors: true,
       map: particleTexture,
       transparent: true,
@@ -145,37 +182,65 @@ export default function NeuralBrain({ active = false }) {
       pulseConnections.push({ start: nodes[index], end: nodes[index + 3] });
     }
     const activePulses = [];
+    const pulseGeometry = new THREE.SphereGeometry(0.07, quality.pulseSegments, quality.pulseSegments);
+    const idlePulseMaterial = new THREE.MeshBasicMaterial({ color: COLORS.cyan, blending: THREE.AdditiveBlending });
+    const engagedPulseMaterial = new THREE.MeshBasicMaterial({ color: COLORS.fuchsia, blending: THREE.AdditiveBlending });
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let frameId;
     let lastTime = 0;
+    let pulseElapsed = 0;
+    let contextLost = false;
 
     const spawnPulse = () => {
-      if (!pulseConnections.length || activePulses.length > 60) return;
+      if (!pulseConnections.length || activePulses.length >= quality.maxPulses) return;
       const connection = pulseConnections[Math.floor(Math.random() * pulseConnections.length)];
-      const mesh = new THREE.Mesh(new THREE.SphereGeometry(0.07, 8, 8), new THREE.MeshBasicMaterial({ color: activeRef.current ? COLORS.fuchsia : COLORS.cyan, blending: THREE.AdditiveBlending }));
+      const mesh = new THREE.Mesh(
+        pulseGeometry,
+        activeRef.current ? engagedPulseMaterial : idlePulseMaterial,
+      );
       mesh.position.copy(connection.start);
       pulses.add(mesh);
       activePulses.push({ mesh, ...connection, progress: 0, speed: 0.004 + Math.random() * 0.003 });
     };
 
     const resize = () => {
-      const width = mount.clientWidth || 1;
-      const height = mount.clientHeight || 1;
+      const { width, height } = mount.getBoundingClientRect();
+      if (!width || !height) return;
       camera.aspect = width / height;
+      const isNarrowMobile = window.matchMedia('(max-width: 640px)').matches && width / height < 0.85;
+      // Frame the complete brain in a portrait viewport. The previous desktop
+      // framing put most of it outside the phone's narrow horizontal view.
+      camera.position.z = isNarrowMobile ? 16.5 : 10;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height, false);
-      const isMobile = window.matchMedia('(max-width: 640px)').matches;
-      const mobileOffset = isMobile ? -1.25 : 0;
-      brain.position.x = mobileOffset;
-      orbitals.position.x = mobileOffset;
-      brain.scale.setScalar(isMobile ? 0.92 : 1.18);
-      orbitals.scale.setScalar(isMobile ? 0.9 : 1);
+      brain.position.x = 0;
+      orbitals.position.x = 0;
+      brain.scale.setScalar(isNarrowMobile ? 0.78 : 1.18);
+      orbitals.scale.setScalar(isNarrowMobile ? 0.78 : 1);
       controls.target.set(0, 0, 0);
       controls.update();
     };
-    const resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(mount);
+    const scheduleResize = () => requestAnimationFrame(resize);
+    const resizeObserver = typeof ResizeObserver === 'undefined'
+      ? null
+      : new ResizeObserver(resize);
+    resizeObserver?.observe(mount);
+    window.addEventListener('resize', scheduleResize);
+    window.addEventListener('orientationchange', scheduleResize);
+    window.visualViewport?.addEventListener('resize', scheduleResize);
     resize();
+
+    const handleContextLost = (event) => {
+      event.preventDefault();
+      contextLost = true;
+    };
+    const handleContextRestored = () => {
+      contextLost = false;
+      renderer.resetState();
+      scheduleResize();
+    };
+    renderer.domElement.addEventListener('webglcontextlost', handleContextLost, false);
+    renderer.domElement.addEventListener('webglcontextrestored', handleContextRestored, false);
 
     const animate = (time) => {
       const delta = Math.min((time - lastTime) / 16.67 || 1, 2);
@@ -193,9 +258,11 @@ export default function NeuralBrain({ active = false }) {
       core.scale.setScalar(1 + Math.sin(time * 0.004) * 0.08 * glow);
       particleMaterial.opacity = 0.72 + (engaged ? 0.2 : 0) + Math.sin(time * 0.003) * 0.08;
       if (!reducedMotion) {
-        if (Math.random() > 0.35) spawnPulse();
-        if (Math.random() > 0.55) spawnPulse();
-        if (Math.random() > 0.7) spawnPulse();
+        pulseElapsed += delta * 16.67;
+        if (pulseElapsed >= quality.pulseInterval * 1000) {
+          spawnPulse();
+          pulseElapsed = 0;
+        }
       }
 
       for (let index = activePulses.length - 1; index >= 0; index -= 1) {
@@ -203,14 +270,12 @@ export default function NeuralBrain({ active = false }) {
         pulse.progress += pulse.speed * delta * (engaged ? 1.5 : 1);
         if (pulse.progress >= 1) {
           pulses.remove(pulse.mesh);
-          pulse.mesh.geometry.dispose();
-          pulse.mesh.material.dispose();
           activePulses.splice(index, 1);
         } else {
           pulse.mesh.position.lerpVectors(pulse.start, pulse.end, pulse.progress);
         }
       }
-      renderer.render(scene, camera);
+      if (!contextLost) renderer.render(scene, camera);
       frameId = requestAnimationFrame(animate);
     };
     frameId = requestAnimationFrame(animate);
@@ -218,11 +283,12 @@ export default function NeuralBrain({ active = false }) {
     return () => {
       cancelAnimationFrame(frameId);
       controls.dispose();
-      resizeObserver.disconnect();
-      activePulses.forEach(({ mesh }) => {
-        mesh.geometry.dispose();
-        mesh.material.dispose();
-      });
+      resizeObserver?.disconnect();
+      window.removeEventListener('resize', scheduleResize);
+      window.removeEventListener('orientationchange', scheduleResize);
+      window.visualViewport?.removeEventListener('resize', scheduleResize);
+      renderer.domElement.removeEventListener('webglcontextlost', handleContextLost, false);
+      renderer.domElement.removeEventListener('webglcontextrestored', handleContextRestored, false);
       scene.traverse((object) => {
         if (object.geometry) object.geometry.dispose();
         if (object.material) {

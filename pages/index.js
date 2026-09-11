@@ -1645,9 +1645,23 @@ export default function Home() {
         .brainViewport:active { cursor: grabbing; }
 
         :global(.neuralBrainCanvas) {
+          position: relative;
           width: 100%;
           height: 100%;
           min-height: 0;
+          overflow: hidden;
+          isolation: isolate;
+          touch-action: none;
+        }
+
+        :global(.neuralBrainCanvas > canvas) {
+          position: absolute;
+          inset: 0;
+          display: block;
+          width: 100% !important;
+          height: 100% !important;
+          max-width: none;
+          max-height: none;
           touch-action: none;
         }
 
@@ -2212,11 +2226,13 @@ export default function Home() {
             width: 100vw;
             height: 100dvh;
             min-height: 0;
+            isolation: isolate;
           }
 
           .brainViewport {
             width: 100%;
             height: 100%;
+            min-height: 100%;
           }
 
           .chatPanel {
